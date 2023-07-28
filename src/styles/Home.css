@@ -1,0 +1,72 @@
+header {
+	width: 90%;
+	margin: auto;
+	margin-top: 30px;
+	text-align: center;
+	border-radius: 30px;
+    padding-top: 30px;
+    background-image: linear-gradient(to bottom, var(--first-color), var(--secondary-color));
+}
+h1{
+    font-size: 70px;
+    margin: 0px;
+    color: var(--text);
+}
+p{
+    color: var(--text-light);
+}
+.image-container {
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	grid-gap: 20px;
+	width: 100%;
+    padding: 30px;
+	height: max-content;
+}
+
+.image-container img {
+	width: 80px;
+	height: 80px;
+	transition: transform 1s ease;
+	/* padding: 30px; */
+    cursor: pointer;
+}
+
+/* Manually position the images */
+.image-container img:nth-child(1) {
+	grid-row: 2;
+	grid-column: 1;
+}
+
+.image-container img:nth-child(2) {
+	grid-row: 1;
+	grid-column: 2;
+}
+
+.image-container img:nth-child(3) {
+	grid-row: 2;
+	grid-column: 3;
+}
+.image-container img:nth-child(4) {
+	grid-row: 1;
+	grid-column: 4;
+}
+
+.image-container img:nth-child(5) {
+	grid-row: 2;
+	grid-column: 5;
+}
+
+.image-container img:nth-child(6) {
+	grid-row: 1;
+	grid-column: 6;
+}
+.image-container img:nth-child(7) {
+	grid-row: 2;
+	grid-column: 7;
+}
+
+.image-container img:nth-child(8) {
+	grid-row: 1;
+	grid-column: 8;
+}

@@ -1,0 +1,74 @@
+#popupdiv{
+	width: 370px;
+	margin: auto;
+}
+.popup {
+	position: absolute;
+	background-color: rgba(36, 35, 35, 0.685);
+	backdrop-filter: blur(25px);
+	height: 80vh;
+	width: 370px;
+	border-radius: 30px;
+	text-align: center;
+	margin: auto;
+	border: #e2e2e2 1px solid;
+
+	top: 110px;
+}
+.openpopup {
+	visibility: visible;
+}
+.popup > h1 {
+	padding-top: 50px;
+	font-family: serif;
+	font-size: 50px;
+	color: white;
+	margin-top: 0px;
+	margin-bottom: 50px;
+}
+.popup h3 {
+	font-family: serif;
+	font-size: 30px;
+	color: white;
+	margin-bottom: 50px;
+}
+#otp {
+	font-size: 30px;
+}
+#otpInput input {
+	width: 50px;
+	height: 50px;
+	font-size: 50px;
+	text-align: center;
+	margin-right: 3px;
+	border: 0px;
+	outline: none;
+}
+input[type="number"]{
+	margin-right: 5px;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+#otpButton {
+	width: 150px;
+	height: 50px;
+	cursor: pointer;
+	display: block;
+	background: linear-gradient(to right, var(--first-color), var(--secondary-color));
+	border: 0;
+	outline: none;
+	border-radius: 15px;
+	color: #ffffff;
+	font-size: 16px;
+	font-weight: 600;
+	text-align: center;
+	margin: auto;
+	margin-top: 20px;
+}
+
+.popup-open {
+	backdrop-filter: blur(55px);
+}

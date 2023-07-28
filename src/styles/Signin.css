@@ -1,0 +1,180 @@
+body {
+	margin: 0;
+	height: 100vh;
+	padding: 0;
+	background-image: linear-gradient(
+		to top,
+		var(--first-color),
+		var(--secondary-color)
+	);
+	overflow-x: hidden;
+}
+
+#signinForm {
+	background-color: aquamarine;
+	width: 300px;
+	height: 60vh;
+	padding: 30px;
+	margin: 30px auto 0px;
+}
+#signinForm>p{
+	font-size: 20px;
+	color: rgb(115, 116, 117);
+}
+#signinForm > div {
+	position: relative;
+}
+#emailInput,
+#passwordInput {
+	height: 30px;
+	font-size: 17px;
+	border-radius: 3px;
+	background-color: transparent;
+	padding-left: 5px;
+	outline: none;
+	border: var(--first-color) 3px solid;
+}
+#emailInput {
+	margin-bottom: 30px;
+}
+#emailInput,
+#passwordInput {
+	width: 90%;
+}
+#emailInput::placeholder,
+#passwordInput::placeholder {
+	color: transparent;
+}
+#emailInput:placeholder-shown ~ #form-label,
+#passwordInput:placeholder-shown ~ #form-label {
+	cursor: text;
+	top: 5px;
+	font-size: 17px;
+}
+#form-label {
+	position: absolute;
+	display: block;
+	font-size: 14px;
+	top: -13px;
+	left: 5px;
+	transition: 0.5s;
+	padding: 0px 2px;
+	background-color: aquamarine;
+}
+
+.lds-roller {
+	display: inline-block;
+	position: relative;
+	top: 40%;
+	width: 80px;
+	height: 80px;
+}
+.lds-roller > span {
+	color: white;
+	position: relative;
+	top: 100px;
+	left: -40px;
+	font-size: 50px;
+}
+.lds-roller div {
+	animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+	transform-origin: 40px 40px;
+}
+.lds-roller div:after {
+	content: " ";
+	display: block;
+	position: absolute;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: #fff;
+	margin: -4px 0 0 -4px;
+}
+.lds-roller div:nth-child(1) {
+	animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+	top: 63px;
+	left: 63px;
+}
+.lds-roller div:nth-child(2) {
+	animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+	top: 68px;
+	left: 56px;
+}
+.lds-roller div:nth-child(3) {
+	animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+	top: 71px;
+	left: 48px;
+}
+.lds-roller div:nth-child(4) {
+	animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+	top: 72px;
+	left: 40px;
+}
+.lds-roller div:nth-child(5) {
+	animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+	top: 71px;
+	left: 32px;
+}
+.lds-roller div:nth-child(6) {
+	animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+	top: 68px;
+	left: 24px;
+}
+.lds-roller div:nth-child(7) {
+	animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+	top: 63px;
+	left: 17px;
+}
+.lds-roller div:nth-child(8) {
+	animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+	top: 56px;
+	left: 12px;
+}
+@keyframes lds-roller {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+#eye {
+	position: relative;
+	top: -10px;
+	left: -1px;
+	font-size: 15px;
+	font-weight: 600;
+}
+input[type="checkbox"]{
+	cursor: pointer;
+}
+
+#submitButton{
+	margin-top: 30px;
+	width: 110px;
+	height: 40px;
+	border: 0px;
+	background: var(--first-color);
+	font-size: 17px;
+	color: var(--text);
+	border-radius: 5px;
+	transition: 0.5s;
+    cursor: pointer;
+}
