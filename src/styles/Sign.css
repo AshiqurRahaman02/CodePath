@@ -17,3 +17,29 @@
 	transition: 0.5s;
     cursor: pointer;
 }
+
+#pageLoader{
+    text-align: center;
+	margin: 0;
+	font-size: 25px;
+	top: 95px;
+	left: 45%;
+	position: absolute;
+	
+	background: linear-gradient(to right,#3FFDCA 0, #000000 10%, #3FFDCA 30%);
+    background-position: 0;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine2 5s infinite linear forwards;
+}
+@keyframes shine2{
+    0%{
+        background-position: 0px;
+    }
+    50%{
+        background-position: 80px;
+    }
+    100%{
+        background-position: 190px;
+    }
+}

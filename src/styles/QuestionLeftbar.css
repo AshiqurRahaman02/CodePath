@@ -1,0 +1,71 @@
+#leftbar{
+    /* margin: 0px 0px 10px 10px; */
+    /* padding-bottom: 10px; */
+    display: flex;
+    width: fit-content;
+}
+#fillterdiv{
+    width: 300px;
+    text-align: left;
+    background-color: white;
+    padding: 10px 10px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    max-height: 70vh;
+    
+    /* overflow: auto;
+    
+    overflow-y: scroll; */
+    transition: 2s;
+}
+#fillterdiv>div{
+    padding: 5px;
+    box-shadow: .3rem .3rem .6rem var(--greyLight-2), 
+    -.2rem -.2rem .5rem transparent;
+}
+#fillterdiv>div>h3{
+    margin: 9px;
+    font-weight: normal;
+}
+#fillterdiv input[type="checkbox"]~span{
+    text-decoration:line-through;
+}
+#fillterdiv input[type="checkbox"]:checked~span{
+    text-decoration:none;
+}
+#fillterdiv select{
+    border: none;
+    width: 90%;
+    font-size: 17px;
+    margin-top: 5px;
+    outline: none;
+}
+
+#iconDiv{
+    background-color: white;
+    width: 40px;
+    padding: 10px 0px;
+    height: fit-content;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+#leftbarIcon{
+    cursor: pointer;
+    
+    transition:  2s;
+}
+
+#hr{
+    margin: 0px;
+    color: black;
+    height: 70vh;
+    background-color: white;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    letter-spacing: 35.3px;
+    font-size: 13px;
+    font-weight: 500;
+    writing-mode: vertical-rl;
+    rotate: 180deg;
+    transition: 2s;
+}

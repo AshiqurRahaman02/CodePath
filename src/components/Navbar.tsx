@@ -29,9 +29,9 @@ const Navbar: React.FC = () => {
             <img src={logo} className="App-logo" alt="logo" />
             {!isAuthenticated ? (
 
-                <Link to="/signin"><button id='navButton'><img src={profileImage} alt="" /><span>Sign In</span></button></Link>
+                <Link to="/signin"><button  className='navButton'><img src={profileImage} alt="" /><span>Sign In</span></button></Link>
             ) : (
-                <Link to="/account"><button id='navButton'><img src={profileImage} alt="" /><span>{userDetails?.name[0].toUpperCase() + userDetails?.name.slice(1)}</span></button></Link>
+                <Link to="/account"><button  className='navButton'><img src={profileImage} alt="" /><span>{userDetails?.name[0].toUpperCase() + userDetails?.name.slice(1)}</span></button></Link>
             )}
 
         </nav>

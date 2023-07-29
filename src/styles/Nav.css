@@ -1,35 +1,33 @@
-
-
-
 nav {
-    position: sticky;
-    top: 0;
+	position: sticky;
+	top: 0;
 	display: flex;
-    width: 90%;
-    padding: 0px 5%;
+	width: 90%;
+	padding: 0px 5%;
 	height: 100px;
 	margin: auto;
-    background-color: var(--first-color);
+	background-color: var(--first-color);
 	justify-content: space-between;
-    align-items: center;
+	align-items: center;
 }
-nav>h1{
-    margin: 0px;
-    width: 220px;
-    /* margin-left: 5%; */
-}
-
-#codepathLogo{
-    width: 50px;
-    height: 100%;
-}
-#name{
-    color: var(--text);
-    position: relative;
-    font-size: 30px;
-    top: -10px;
+nav > h1 {
+	margin: 0px;
+	width: 220px;
+	position: relative;
+	top: 0px;
+	/* margin-left: 5%; */
 }
 
+#codepathLogo {
+	width: 50px;
+	height: 100%;
+}
+#name {
+	color: var(--text);
+	position: relative;
+	font-size: 30px;
+	top: -10px;
+}
 
 .App-logo {
 	width: 10%;
@@ -48,10 +46,10 @@ nav>h1{
 	}
 }
 
-a{
-    text-decoration: none;
+a {
+	text-decoration: none;
 }
-#navButton{
+/* #navButton{
     height: max-content;
     width: max-content;
     padding: 10px;
@@ -62,11 +60,49 @@ a{
     justify-content: space-around;
     align-items: center;
     cursor: pointer;
-}
+} */
 
 @media (max-width: 500px) {
-    nav {
-        width: 94%;
-        padding: 0px 3%;
-    }
+	nav {
+		width: 98%;
+		padding: 0px 1%;
+	}
+}
+.navButton {
+	--b: 3px; /* border thickness */
+	--s: 0.45em; /* size of the corner */
+	--color: var(--secondary-color);
+
+	padding: calc(0.5em + var(--s)) calc(0.9em + var(--s));
+	color: var(--first-color);
+    cursor: pointer;
+	--_p: var(--s);
+	background: conic-gradient(
+			from 90deg at var(--b) var(--b),
+			#0000 90deg,
+			var(--color) 0
+		)
+		var(--_p) var(--_p) / calc(100% - var(--b) - 2 * var(--_p))
+		calc(100% - var(--b) - 2 * var(--_p));
+	transition: 0.3s linear, color 0s, background-color 0s;
+	outline: var(--b) solid #0000;
+	outline-offset: 0.6em;
+	font-size: 16px;
+
+	border: 0;
+
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.navButton>:first-child{
+    margin-right: 10px;
+}
+.navButton span{
+    color: #f0ebeb;
 }

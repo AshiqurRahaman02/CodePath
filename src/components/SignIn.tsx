@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "../styles/Signin.css";
+import { userRoutes } from "../api/userRoutes";
 
 import Popup from "./PopUp";
 
@@ -23,6 +26,10 @@ const SignIn = () => {
 
 	const [showPopup, setShowPopup] = useState(false);
 
+	const [isLoading, setLoading] = useState(false);
+
+	const navigate = useNavigate();
+
 	const handleSignInSubmit = (e: any) => {
 		e.preventDefault();
 
@@ -30,13 +37,13 @@ const SignIn = () => {
 			// Send email with OTP here
 			setShowPopup(true);
 		} else {
-			if(!validSignInEmail){
-        let message = "Please enter a valid email";
-        notify(message, "warning");
-      }else{
-        let message = "Please enter a strong password";
-        notify(message, "warning");
-      }
+			if (!validSignInEmail) {
+				let message = "Please enter a valid email";
+				notify(message, "warning");
+			} else {
+				let message = "Please enter a strong password";
+				notify(message, "warning");
+			}
 		}
 	};
 
@@ -75,7 +82,7 @@ const SignIn = () => {
 			password: signInPassword,
 		};
 
-		fetch("", {
+		fetch(userRoutes.login, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -84,26 +91,25 @@ const SignIn = () => {
 		})
 			.then((res) => res.json())
 			.then((res) => {
-				if (!res.isError) {
-					localStorage.setItem("token", res.token);
-					let user = res.user;
-					console.log(res);
-					user.tag = `@${user.name.split(" ")[0]}${Math.floor(
-						1000 + Math.random() * 9000
-					)}`;
-					localStorage.setItem("userInfo", JSON.stringify(user));
-					
-					setTimeout(function () {
-						window.location.href = "../index.html";
-					}, 3000);
+				if (res.isError) {
+					notify(res.message, "warning");
 				} else {
-					// customAlert(false, `${res.message}`, "");
+					handleSuccessfulSignin(res);
 				}
 			})
 			.catch((err) => {
 				console.log(err);
-				// customAlert(false, `${err.message}`, "");
+				notify(err.message, "error");
 			});
+	};
+
+	const handleSuccessfulSignin = (res: any) => {
+		console.log(res);
+		let user = res.user;
+		localStorage.setItem("userInfo", JSON.stringify(user));
+		setTimeout(() => {
+			navigate("/");
+		}, 3000);
 	};
 
 	const handleShowPasswordToggle = () => {
@@ -112,7 +118,9 @@ const SignIn = () => {
 
 	const handleOtpSubmit = (otp: number) => {
 		if (otp === 1234) {
-			setShowPopup(false);
+			setLoading(true);
+			signInFunction()
+			// setShowPopup(false);
 		} else {
 			console.log(`${otp}`);
 
@@ -169,72 +177,75 @@ const SignIn = () => {
 				progress: undefined,
 				theme: "light",
 			});
-		}else{
-      toast('🦄 Wow so easy!', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        });
-    }
+		} else {
+			toast("🦄 Wow so easy!", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+		}
 	};
 
 	return (
 		<div>
-			<form onSubmit={handleSignInSubmit} id="signinForm">
-				<h2>{`{Code}`}Path </h2>
-				<p>Sign in</p>
-				<div>
-					<input
-						type="text"
-						placeholder="Email"
-						id="emailInput"
-						value={signInEmail}
-						onChange={handleSignInEmail}
-					/>
-					<label htmlFor="" id="form-label">
-						Email
-					</label>
-				</div>
-				<div>
-					<input
-						type={showPassword ? "text" : "password"}
-						placeholder="Password"
-						id="passwordInput"
-						value={signInPassword}
-						onChange={handleSignInPassword}
-					/>
-					<br />
-					<label htmlFor="" id="form-label">
-						Password
-					</label>{" "}
-					<br />
-					<div id="eye">
+			{isLoading && <p id="pageLoader">Loading...</p>}
+			<div>
+				<form onSubmit={handleSignInSubmit} id="signinForm">
+					<h2>{`{Code}`}Path </h2>
+					<p>Sign in</p>
+					<div>
 						<input
-							type="checkbox"
-							name="showpassword"
-							checked={showPassword}
-							onChange={handleShowPasswordToggle}
+							type="text"
+							placeholder="Email"
+							id="emailInput"
+							value={signInEmail}
+							onChange={handleSignInEmail}
 						/>
-						<span>Show password</span> <br />
+						<label htmlFor="" id="form-label">
+							Email
+						</label>
 					</div>
-				</div>
-				<button type="submit" id="submitButton">
-					Sign In
-				</button>
-			</form>
+					<div>
+						<input
+							type={showPassword ? "text" : "password"}
+							placeholder="Password"
+							id="passwordInput"
+							value={signInPassword}
+							onChange={handleSignInPassword}
+						/>
+						<br />
+						<label htmlFor="" id="form-label">
+							Password
+						</label>{" "}
+						<br />
+						<div id="eye">
+							<input
+								type="checkbox"
+								name="showpassword"
+								checked={showPassword}
+								onChange={handleShowPasswordToggle}
+							/>
+							<span>Show password</span> <br />
+						</div>
+					</div>
+					<button type="submit" id="submitButton">
+						Sign In
+					</button>
+				</form>
 
-			<ToastContainer />
-			{showPopup && (
-				<Popup
-					onClose={() => setShowPopup(false)}
-					onOtpSubmit={handleOtpSubmit}
-				/>
-			)}
+				<ToastContainer />
+				{showPopup && (
+					<Popup
+						onClose={() => setShowPopup(false)}
+						onOtpSubmit={handleOtpSubmit}
+					/>
+				)}
+			</div>
 		</div>
 	);
 };

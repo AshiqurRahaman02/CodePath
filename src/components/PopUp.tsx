@@ -51,7 +51,8 @@ const Popup = ({ onClose, onOtpSubmit }:PopupProps) => {
     <div id='popupdiv'>
       <div id="popup" className="popup openpopup">
         <h1>OTP <br /> VERIFICATION</h1>
-        <h3>Check your Email for OPT</h3>
+        <h3>Your OTP is 1234</h3>
+        {/* <h3>Check your Email for OPT</h3> */}
 
         <form onSubmit={handleOtpSubmit}>
           <div id="otpInput">
