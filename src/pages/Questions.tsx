@@ -20,6 +20,7 @@ function Questions() {
 	const [token, setToken] = useState<any | null>();
 
 	const [displayQuestions, setDisplayQuestions] = useState<IQuestion[]>([]);
+	const [allQuestions, setAllQuestions] = useState<IQuestion[]>([])
 
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -83,7 +84,65 @@ function Questions() {
 		}
 	};
 
+	const getAllQuestions = () => {
+		fetch(`${questionRoute.getAllQuestion}`)
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					console.log("Success")
+					setAllQuestions(res.questions);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
+	}
 	
+
+	const handleQuestionUpdate = (params:any)=>{
+		let isStatus =false
+		let isDifficulty = false
+		let isSkill =false
+		if(params){
+			const skillMap = {
+				js: "JavaScript",
+				node: "Node Js",
+				ts: "TypeScript",
+				react: "React",
+			};
+			let param = params.split("&")
+			
+			let statusObj:any ={}
+			let difficultyObj:any={}
+			let skillObj:any={}
+			for(let i=0; i<param.length; i++){
+				let [key, value] = param[i].split("=")
+				if(key === "s"){
+					statusObj[value]=1
+					isStatus = true
+				}
+				if(key === "d"){
+					difficultyObj[value]=1
+					isDifficulty = true
+				}
+				if(key === "skills"){
+					skillObj[value]=1
+					isSkill = true
+				}
+			}
+
+			let skillFilteredQuestions =allQuestions
+			if(isSkill){
+				
+			}
+
+		}else{
+			setDisplayQuestions(allQuestions)
+		}
+	}
 
 	useEffect(() => {
 		const userDetails = localStorage.getItem("userInfo");
@@ -116,6 +175,9 @@ function Questions() {
 					} else {
 						setDisplayQuestions(res.questions);
 						console.log(res.questions[0]);
+						setTimeout(() =>{
+							getAllQuestions()
+						}, 5000)
 					}
 				})
 				.catch((err) => {
@@ -134,7 +196,7 @@ function Questions() {
 		<div>
 			<Navbar />
 			<div id="questionsHeader">
-				<QuestionLeftbar />
+				<QuestionLeftbar onChange={handleQuestionUpdate}/>
 				<div id="parent">
 					{displayQuestions.map((question) => (
 						<div key={question._id}>

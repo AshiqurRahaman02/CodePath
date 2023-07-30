@@ -7,7 +7,11 @@ import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 import "../styles/QuestionLeftbar.css";
 
-function QuestionLeftbar() {
+interface Fun {
+	onChange: (params: any) => void;
+  }
+
+function QuestionLeftbar({onChange}:Fun) {
 	const location = useLocation();
 	const [isLeftbarVisible, setIsLeftbarVisible] = useState(true);
 
@@ -94,6 +98,8 @@ function QuestionLeftbar() {
 		}
 	}, [location.search]);
 
+	const [isFirstTime, setIsFirstTime] = useState(true)
+
 	const updateURL = () => {
 		const searchParams = new URLSearchParams();
 
@@ -165,13 +171,17 @@ function QuestionLeftbar() {
 			});
 		}
 
-		console.log(searchParams.toString());
+		// console.log(searchParams.toString());
 		navigate(`?${searchParams.toString()}`);
+		if(!isFirstTime){
+			onChange(searchParams.toString())
+		}
 	};
 
 	// Call the updateURL function whenever any option is selected or changed
 	useEffect(() => {
 		updateURL();
+		setIsFirstTime(false)
 	}, [
 		sort,
 		isAttempted,
