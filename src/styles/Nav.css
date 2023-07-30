@@ -31,6 +31,8 @@ nav > h1 {
 
 .App-logo {
 	width: 10%;
+	position: relative;
+	left: -5%;
 }
 @media (prefers-reduced-motion: no-preference) {
 	.App-logo {

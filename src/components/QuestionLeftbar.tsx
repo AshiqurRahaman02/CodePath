@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
@@ -6,13 +8,19 @@ import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import "../styles/QuestionLeftbar.css";
 
 function QuestionLeftbar() {
+	const location = useLocation();
 	const [isLeftbarVisible, setIsLeftbarVisible] = useState(true);
+
+	const [windowUrl, setWindowUrl] = useState("");
+	const navigate = useNavigate();
+
+	const [sort, setSort] = useState(""); // To track the selected sort option
 
 	// checkboxes
 	const [isAttempted, setAttempted] = useState(true);
 	const [isNotAttempted, setNotAttempted] = useState(true);
 	const [isEasy, setEasy] = useState(true);
-	const [isMediun, setMediun] = useState(true);
+	const [isMedium, setMedium] = useState(true);
 	const [isHard, setHard] = useState(true);
 	const [isJs, setJs] = useState(true);
 	const [isNode, setNode] = useState(true);
@@ -20,8 +28,169 @@ function QuestionLeftbar() {
 	const [isReact, setReact] = useState(true);
 	const [isOthers, setOthers] = useState(true);
 
+	// Listen for changes in the URL and update the state accordingly
+	useEffect(() => {
+		const searchParams = new URLSearchParams(location.search);
+
+		const currentURLWithoutParams =
+			window.location.origin + window.location.pathname;
+		setWindowUrl(currentURLWithoutParams);
+		// console.log(currentURLWithoutParams);
+
+		// Update state based on URL query parameters
+		setSort(searchParams.get("sort") || "");
+
+		if (!searchParams.has("s")) {
+			setAttempted(true);
+			setNotAttempted(true);
+		} else {
+			setAttempted(searchParams.getAll("s").includes("a"));
+			setNotAttempted(searchParams.getAll("s").includes("not"));
+		}
+
+		if (!searchParams.has("d")) {
+			setEasy(true);
+			setMedium(true);
+			setHard(true);
+		} else {
+			setEasy(
+				searchParams.has("d") && searchParams.getAll("d").includes("e")
+			);
+			setMedium(
+				searchParams.has("d") && searchParams.getAll("d").includes("m")
+			);
+			setHard(
+				searchParams.has("d") && searchParams.getAll("d").includes("h")
+			);
+		}
+
+		if (!searchParams.has("skills")) {
+			setJs(true);
+			setNode(true);
+			setTs(true);
+			setReact(true);
+			setOthers(true);
+		} else {
+			setJs(
+				searchParams.has("skills") &&
+					searchParams.getAll("skills").includes("js")
+			);
+			setNode(
+				searchParams.has("skills") &&
+					searchParams.getAll("skills").includes("node")
+			);
+			setTs(
+				searchParams.has("skills") &&
+					searchParams.getAll("skills").includes("ts")
+			);
+			setReact(
+				searchParams.has("skills") &&
+					searchParams.getAll("skills").includes("react")
+			);
+			setOthers(
+				searchParams.has("skills") &&
+					searchParams.getAll("skills").includes("others")
+			);
+		}
+	}, [location.search]);
+
+	const updateURL = () => {
+		const searchParams = new URLSearchParams();
+
+		// Add sort option to URL query if selected
+		if (sort) {
+			searchParams.append("sort", sort);
+		}
+
+		// Add status options to URL query if selected
+		const selectedStatus = [];
+		if (isAttempted) {
+			selectedStatus.push("a");
+		}
+		if (isNotAttempted) {
+			selectedStatus.push("not");
+		}
+		if (selectedStatus.length === 2) {
+			searchParams.delete("s");
+		} else {
+			selectedStatus.forEach((status) => {
+				searchParams.append("s", status);
+			});
+		}
+
+		// Add difficulty options to URL query if selected
+		const selectedDifficulties = [];
+		if (isEasy) {
+			selectedDifficulties.push("e");
+		}
+		if (isMedium) {
+			selectedDifficulties.push("m");
+		}
+		if (isHard) {
+			selectedDifficulties.push("h");
+		}
+
+		// Check if all difficulty options are selected and add to URL query accordingly
+		if (selectedDifficulties.length === 3) {
+			searchParams.delete("d"); // Remove the 'd' parameter from the URL
+		} else {
+			selectedDifficulties.forEach((difficulty) => {
+				searchParams.append("d", difficulty);
+			});
+		}
+
+		// Add skill options to URL query if selected
+		const selectedSkills = [];
+		if (isJs) {
+			selectedSkills.push("js");
+		}
+		if (isNode) {
+			selectedSkills.push("node");
+		}
+		if (isTs) {
+			selectedSkills.push("ts");
+		}
+		if (isReact) {
+			selectedSkills.push("react");
+		}
+		if (isOthers) {
+			selectedSkills.push("others");
+		}
+
+		if (selectedSkills.length === 5) {
+			searchParams.delete("skills");
+		} else {
+			selectedSkills.forEach((skills) => {
+				searchParams.append("skills", skills);
+			});
+		}
+
+		console.log(searchParams.toString());
+		navigate(`?${searchParams.toString()}`);
+	};
+
+	// Call the updateURL function whenever any option is selected or changed
+	useEffect(() => {
+		updateURL();
+	}, [
+		sort,
+		isAttempted,
+		isNotAttempted,
+		isEasy,
+		isMedium,
+		isHard,
+		isJs,
+		isNode,
+		isTs,
+		isReact,
+		isOthers,
+	]);
+
 	const leftbar = () => {
 		setIsLeftbarVisible(!isLeftbarVisible);
+	};
+	const handleSortChange = (e: any) => {
+		setSort(e.target.value);
 	};
 	return (
 		<div id="leftbar">
@@ -30,11 +199,16 @@ function QuestionLeftbar() {
 					<div id="sorting">
 						<label htmlFor="">Sort by</label>
 						<br />
-						<select name="" id="">
+						<select
+							name=""
+							id=""
+							value={sort}
+							onChange={handleSortChange}
+						>
 							<option value="">Tranding</option>
-							<option value="">Popularity</option>
-							<option value="">Level: Easy to Hard</option>
-							<option value="">Level: Hard to Low</option>
+							<option value="po">Popularity</option>
+							<option value="asc">Level: Easy to Hard</option>
+							<option value="desc">Level: Hard to Low</option>
 						</select>
 					</div>
 					<div id="attempted">
@@ -77,8 +251,8 @@ function QuestionLeftbar() {
 								type="checkbox"
 								name="medium"
 								id=""
-								checked={isMediun}
-								onChange={() => setMediun(!isMediun)}
+								checked={isMedium}
+								onChange={() => setMedium(!isMedium)}
 							/>
 							<span>Mediun</span>
 						</h3>

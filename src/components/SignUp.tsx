@@ -129,6 +129,7 @@ const SignUp = () => {
 		console.log(res);
 		let user = res.user;
 		localStorage.setItem("userInfo", JSON.stringify(user));
+		localStorage.setItem("token", res.token);
 		setTimeout(() => {
 			navigate("/");
 		}, 3000);
