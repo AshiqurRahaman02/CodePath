@@ -1,12 +1,72 @@
 #questionsHeader{
-    width: 90%;
+    width: 94%;
 	margin: auto;
 	margin-top: 30px;
 	text-align: center;
 	border-radius: 30px;
-    padding: 20px;
+    padding: 10px;
 	margin-bottom: 30px;
-    background-color: rgba(255, 255, 255, 0.116);
+    /* background-color: rgba(255, 255, 255, 0.116); */
 
+	background-color: white;
 	display: flex;
+
+	
 }
+#parent{
+	overflow: auto;
+    max-height: 75vh;
+    overflow-y: scroll;
+	
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
+#parent::-webkit-scrollbar {
+	display: block;
+	width: 5px;
+	background-color: rgba(0, 0, 0, 0);
+}
+#parent::-webkit-scrollbar-thumb {
+	background-color: #ffffff00;
+	border-radius: 10px;
+}
+
+#parent>div{
+	width: 300px;
+	height: fit-content;
+	padding: 10px;
+	margin: 5px;
+	cursor: pointer;
+    /* box-shadow: .3rem .3rem .6rem var(--greyLight-2), 
+    -.2rem -.2rem .5rem transparent; */
+
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+	transition: .5s;
+	border-radius: 20px;
+}
+
+#parent>div:hover{
+	transform: scale(1.05);
+}
+#parent>div p{
+	display: flex;
+	justify-content: space-between;
+	margin: 0px;
+}
+#parent>div span{
+	color: #000;
+	padding: 4px;
+}
+#parent>div #Easy {
+	background-color: rgb(66, 240, 66);
+	border-radius: 5px;
+  }
+  
+  #Medium{
+	background-color: orange;
+	border-radius: 5px;
+  }
+  #Hard{
+	background-color: rgb(255, 39, 39);	border-radius: 5px;
+  }

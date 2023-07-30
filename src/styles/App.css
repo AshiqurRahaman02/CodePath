@@ -1,11 +1,8 @@
 
 ::-webkit-scrollbar {
-	display: none;
+	display: block;
 	width: 5px;
 	background-color: black;
-}
-:hover::-webkit-scrollbar {
-	display: block;
 }
 ::-webkit-scrollbar-thumb {
 	background-color: #ffffff;
