@@ -111,10 +111,10 @@ function Questions() {
 	// const [difficulty, setDifficulty] = useState<string[]>([]); // Set the type to an array of strings
 	// const [skills, setSkills] = useState<string[]>([]);
 	const handleQuestionUpdate = (params: any) => {
-		let status=""
-		let difficulty:any =[]
-		let skills:any =[]
-		console.log(params,status,difficulty,skills)
+		let status = "";
+		let difficulty: any = [];
+		let skills: any = [];
+		console.log(params, status, difficulty, skills);
 		let isStatus = false;
 		let isDifficulty = false;
 		let isSkill = false;
@@ -156,21 +156,17 @@ function Questions() {
 
 			const searchParams = new URLSearchParams(window.location.search);
 			const statusParam = searchParams.get("s");
-			status=statusParam || "";
+			status = statusParam || "";
 
 			// Set difficulty state based on the 'd' query parameter (may be an array)
 			const difficultyParam = searchParams.getAll("d");
-			difficulty=
-				difficultyParam.map(
-					(sortForm: any) => difficultyMap[sortForm] || sortForm
-				)
-			
+			difficulty = difficultyParam.map(
+				(sortForm: any) => difficultyMap[sortForm] || sortForm
+			);
 
 			// Set skills state based on the 'skills' query parameter (may be an array)
 			const skillsParam = searchParams.getAll("skills");
-			skills=
-				skillsParam.map((sortForm) => skillMap[sortForm] || sortForm)
-			
+			skills = skillsParam.map((sortForm) => skillMap[sortForm] || sortForm);
 
 			const filteredQuestions = allQuestions.filter((question) => {
 				// Check status filter
@@ -193,9 +189,12 @@ function Questions() {
 				}
 
 				// Check skills filter
-				if(skills.length){
-					if(skills.includes("others") && !Object.values(skillMap).includes(question.skill)){
-						return true
+				if (skills.length) {
+					if (
+						skills.includes("others") &&
+						!Object.values(skillMap).includes(question.skill)
+					) {
+						return true;
 					}
 					if (
 						skills[0] === "others" &&
@@ -210,8 +209,8 @@ function Questions() {
 
 				return true;
 			});
-			console.log("dslkja")
-			console.log(filteredQuestions)
+			console.log("dslkja");
+			console.log(filteredQuestions);
 			setDisplayQuestions(filteredQuestions);
 		} else {
 			setDisplayQuestions(allQuestions);
@@ -219,7 +218,7 @@ function Questions() {
 	};
 
 	useEffect(() => {
-		notify("Please wait for 10s before start filtering","info")
+		notify("Please wait for 10s before start filtering", "info");
 		const userDetails = localStorage.getItem("userInfo");
 		const token = localStorage.getItem("token");
 		if (token && userDetails) {
@@ -275,7 +274,11 @@ function Questions() {
 					{displayQuestions.map((question) => (
 						<div key={question._id}>
 							<div>
-								<h2><Link to={`/question/${question._id}`}>{question.question}</Link></h2>
+								<h2>
+									<Link to={`/question/${question._id}`}>
+										{question.question}
+									</Link>
+								</h2>
 							</div>
 							<div>
 								<p>

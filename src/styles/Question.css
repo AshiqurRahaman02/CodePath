@@ -1,168 +1,214 @@
-#question{
-    width: 94%;
+#question {
+	width: 94%;
 	margin: auto;
 	margin-top: 30px;
 	text-align: left;
 	border-radius: 30px;
-    padding: 10px;
+	padding: 10px;
 	margin-bottom: 30px;
 
 	background-color: rgb(255, 255, 255);
-
-    
 }
 
-#top{
-    height: max-content;
-    display: flex;
-    justify-content: space-between;
-    padding: 0px 10px;
-    box-shadow: 0rem .3rem .6rem var(--greyLight-2), 
-    -.2rem -.2rem .5rem transparent;
-    z-index: 10px;
+#top {
+	height: max-content;
+	display: flex;
+	justify-content: space-between;
+	padding: 0px 10px;
+	box-shadow: 0rem 0.3rem 0.6rem var(--greyLight-2),
+		-0.2rem -0.2rem 0.5rem transparent;
+	z-index: 10px;
 }
-#top~div{
-    max-height: 65vh;
-    overflow: auto;
+#top ~ div {
+	max-height: 65vh;
+	overflow: auto;
 }
-#top~div::-webkit-scrollbar {
+#top ~ div::-webkit-scrollbar {
 	display: block;
 	width: 5px;
 	background-color: rgba(0, 0, 0, 0);
 }
-#top~div::-webkit-scrollbar-thumb {
+#top ~ div::-webkit-scrollbar-thumb {
 	background-color: #ffffff00;
 	border-radius: 10px;
 }
 
-#answer>h2{
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    box-shadow: 0rem .3rem .6rem var(--greyLight-2), 
-    -.2rem -.2rem .5rem transparent;
-    margin-bottom: 0px;
+#top > div:nth-child(2) {
+	margin-top: 20px;
 }
-#answer>div{
-    background-color: #c8d0e767;
-    padding: 10px 5px;
+#top button {
+	width: 130px;
+	height: 30px;
+	margin: 3px;
+	border: 0px;
 }
-#answer>div>p{
-    color: black;
+#attempted {
+	background-color: transparent;
 }
-#textarea>textarea{
-    width: 99%;
-    margin: auto;
-    margin-top: 20px;
-    resize: none;
-    outline: none;
+#Easy,
+#Medium,
+#Hard {
+	border: 0px;
 }
-
-
-#textarea>button, #add {
-    margin-top: -5px;
-    height: 30px;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid #18181a;
-  color: #18181a;
-  display: inline-block;
-  font-size: 15px;
-  line-height: 1px;
-  padding: 18px 18px 17px;
-  text-decoration: none;
-  cursor: pointer;
-  background: #fff;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
+#Easy {
+	background-color: rgb(66, 240, 66);
+	/* border-radius: 5px; */
 }
 
-#textarea>button span:first-child {
-  position: relative;
-  transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
-  z-index: 10;
+#Medium {
+	background-color: orange;
+	/* border-radius: 5px; */
 }
-
-#textarea>button span:last-child {
-  color: rgb(0, 0, 0);
-  display: block;
-  position: absolute;
-  bottom: 0;
-  transition: all 500ms cubic-bezier(0.48, 0, 0.12, 1);
-  z-index: 100;
-  opacity: 0;
-  top: 50%;
-  left: 50%;
-  transform: translateY(225%) translateX(-50%);
-  height: 14px;
-  line-height: 30px;
+#Hard {
+	background-color: rgb(255, 39, 39);
+	/* border-radius: 5px; */
 }
-
-#textarea>button:after {
-  content: "";
-  position: absolute;
-  bottom: -50%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(97, 243, 207);
-  transform-origin: bottom center;
-  transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
-  transform: skewY(9.3deg) scaleY(0);
-  z-index: 50;
-}
-
-#textarea>button:hover:after {
-  transform-origin: bottom center;
-  transform: skewY(9.3deg) scaleY(2);
-}
-
-#textarea>button:hover span:last-child {
-  transform: translateX(-50%) translateY(-100%);
-  opacity: 1;
-  transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
-}
-
-#comments>div:nth-child(1){
-    margin-top: 20px;
-    width: 100%;
-}
-#comments>div:nth-child(1)>input{
-    width: 50%;
-    height: 30px;
-    border: 0px;
-    border-bottom: 1px solid black;
-    margin: 0px 5px;
-}
-
-#btns{
-    display: flex;
-    justify-content: right;
-    width: fit-content;
-    margin: 0px 0px 0px auto;
-}
-#btns:hover> button:not(:hover){
-    opacity: 0.5;
-}
-#google,#youtube, #chat, #bard{
-    border: 0px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+#top #like{
+    border: 1px solid rgb(0, 0, 0);
+    background-color: transparent;
     cursor: pointer;
-    margin-left: 5px;
-    width: fit-content;
-    font-size: 30px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    display: flex;
-
-    align-items: center;
-    transition: .5s;
-    border-radius: 5px;
 }
-#btns>button:hover{
-    transform: scale(1.05);
+#top #bookmark{
+    border: 1px solid rgb(0, 0, 0);
+    background-color: transparent;
+    cursor: pointer;
 }
 
-#google>img,#youtube>img, #chat>img, #bard>img{
-    height: 30px;
+#answer > h2 {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+	box-shadow: 0rem 0.3rem 0.6rem var(--greyLight-2),
+		-0.2rem -0.2rem 0.5rem transparent;
+	margin-bottom: 0px;
+}
+#answer > div {
+	background-color: #c8d0e767;
+	padding: 10px 5px;
+}
+#answer > div > p {
+	color: black;
+}
+#textarea > textarea {
+	width: 99%;
+	margin: auto;
+	margin-top: 20px;
+	resize: none;
+	outline: none;
+}
+
+#textarea > button,
+#add {
+	margin-top: -5px;
+	height: 30px;
+	position: relative;
+	overflow: hidden;
+	border: 1px solid #18181a;
+	color: #18181a;
+	display: inline-block;
+	font-size: 15px;
+	line-height: 1px;
+	padding: 18px 18px 17px;
+	text-decoration: none;
+	cursor: pointer;
+	background: #fff;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+}
+
+#textarea > button span:first-child {
+	position: relative;
+	transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
+	z-index: 10;
+}
+
+#textarea > button span:last-child {
+	color: rgb(0, 0, 0);
+	display: block;
+	position: absolute;
+	bottom: 0;
+	transition: all 500ms cubic-bezier(0.48, 0, 0.12, 1);
+	z-index: 100;
+	opacity: 0;
+	top: 50%;
+	left: 50%;
+	transform: translateY(225%) translateX(-50%);
+	height: 14px;
+	line-height: 30px;
+}
+
+#textarea > button:after {
+	content: "";
+	position: absolute;
+	bottom: -50%;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgb(97, 243, 207);
+	transform-origin: bottom center;
+	transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
+	transform: skewY(9.3deg) scaleY(0);
+	z-index: 50;
+}
+
+#textarea > button:hover:after {
+	transform-origin: bottom center;
+	transform: skewY(9.3deg) scaleY(2);
+}
+
+#textarea > button:hover span:last-child {
+	transform: translateX(-50%) translateY(-100%);
+	opacity: 1;
+	transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
+}
+
+#comments > div:nth-child(1) {
+	margin-top: 20px;
+	width: 100%;
+}
+#comments > div:nth-child(1) > input {
+	width: 50%;
+	height: 30px;
+	border: 0px;
+	border-bottom: 1px solid black;
+	margin: 0px 5px;
+}
+
+#btns {
+	display: flex;
+	justify-content: right;
+	width: fit-content;
+	margin: 0px 0px 0px auto;
+}
+#btns:hover > button:not(:hover) {
+	opacity: 0.5;
+}
+#google,
+#youtube,
+#chat,
+#bard {
+	border: 0px;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	cursor: pointer;
+	margin-left: 5px;
+	width: fit-content;
+	font-size: 30px;
+	font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+		"Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+	display: flex;
+
+	align-items: center;
+	transition: 0.5s;
+	border-radius: 5px;
+}
+#btns > button:hover {
+	transform: scale(1.05);
+}
+
+#google > img,
+#youtube > img,
+#chat > img,
+#bard > img {
+	height: 30px;
 }
