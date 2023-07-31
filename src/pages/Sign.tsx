@@ -18,7 +18,6 @@ const SignInSignUp = () => {
 
 	return (
 		<>
-			<Navbar />
 			{/* Sign In Form */}
 			{isSignInVisible && <SignIn />}
 

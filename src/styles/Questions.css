@@ -49,6 +49,9 @@
 #parent>div:hover{
 	transform: scale(1.05);
 }
+a{
+	color: #000;
+}
 #parent>div p{
 	display: flex;
 	justify-content: space-between;

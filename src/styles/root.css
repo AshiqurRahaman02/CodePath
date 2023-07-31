@@ -9,3 +9,8 @@
   --greyLight-1: #E4EBF5;
   --greyLight-2: #c8d0e7;
 }
+
+*{
+  word-spacing: 2px;
+  letter-spacing: 1px;
+}

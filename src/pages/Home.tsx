@@ -50,7 +50,6 @@ const Home: React.FC = () => {
 
 	return (
 		<div>
-			<Navbar />
 			<header>
 				<h1>
 					Unlock Your Potential <br /> Prepare for Success

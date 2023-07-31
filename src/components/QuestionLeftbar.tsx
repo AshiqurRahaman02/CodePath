@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "../styles/QuestionLeftbar.css";
 
@@ -19,6 +21,7 @@ function QuestionLeftbar({onChange}:Fun) {
 	const navigate = useNavigate();
 
 	const [sort, setSort] = useState(""); // To track the selected sort option
+	
 
 	// checkboxes
 	const [isAttempted, setAttempted] = useState(true);
@@ -173,9 +176,10 @@ function QuestionLeftbar({onChange}:Fun) {
 
 		// console.log(searchParams.toString());
 		navigate(`?${searchParams.toString()}`);
-		if(!isFirstTime){
-			onChange(searchParams.toString())
-		}
+		onChange(searchParams.toString())
+		// if(!isFirstTime){
+			
+		// }
 	};
 
 	// Call the updateURL function whenever any option is selected or changed
@@ -196,6 +200,66 @@ function QuestionLeftbar({onChange}:Fun) {
 		isOthers,
 	]);
 
+	
+	const notify = (message: string, type: string) => {
+		if (type === "error") {
+			toast.error(message, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+		} else if (type === "success") {
+			toast.success(message, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+		} else if (type === "info") {
+			toast.info(message, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+		} else if (type === "warning") {
+			toast.warn(message, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+		} else {
+			toast("🦄 Wow so easy!", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+		}
+	};
+
 	const leftbar = () => {
 		setIsLeftbarVisible(!isLeftbarVisible);
 	};
@@ -213,7 +277,7 @@ function QuestionLeftbar({onChange}:Fun) {
 							name=""
 							id=""
 							value={sort}
-							onChange={handleSortChange}
+							onChange={()=>notify("Great things are on the way! Stay tuned for exciting updates as we work diligently to bring you these amazing features.","info")}
 						>
 							<option value="">Tranding</option>
 							<option value="po">Popularity</option>
