@@ -9,7 +9,7 @@ import {
 	faCircleDot,
 	faCircleCheck,
 	faChevronUp,
-	faBookmark
+	faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,12 +33,11 @@ function Question() {
 	const [question, setQuestion] = useState<IQuestion | null>(null);
 	const [isAnswerVisible, setIsAnswerVisible] = useState(false);
 
-	const [likes, setLikes] = useState()
+	const [likes, setLikes] = useState(0);
 	const [isLiked, setIsLiked] = useState(false);
 	const [isBookmarked, setIsBookmarked] = useState(false);
 	const [isAttempted, setIsAttempted] = useState(false);
 
-	console.log(id);
 	const navigate = useNavigate();
 
 	const notify = (message: string, type: string) => {
@@ -175,34 +174,47 @@ function Question() {
 	};
 
 	useEffect(() => {
-		fetch(`${questionRoute.questionById}/${id}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: token,
-			},
-		})
-			.then((res) => res.json())
-			.then((res) => {
-				if (res.isError) {
-					notify(res.message, "warning");
-				} else {
-					console.log(res.question);
-					setQuestion(res.question);
+		const userDetails = localStorage.getItem("userInfo");
+		const token = localStorage.getItem("token");
+		if (token && userDetails) {
+			const parsedUserDetails = JSON.parse(userDetails);
+			setUserDetails(parsedUserDetails);
 
-					setLikes(res.question.likes);
-					if(res.question.likedBy.includes(userId)){
-						setIsLiked(true)
-					}
-					if(res.question.attemptedBy.includes(userId)){
-						setIsAttempted(true)
-					}
-				}
+			setUserId(parsedUserDetails._id);
+			setToken(token);
+
+			fetch(`${questionRoute.questionById}/${id}`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: token,
+				},
 			})
-			.catch((err) => {
-				console.log(err);
-				notify(err.message, "error");
-			});
+				.then((res) => res.json())
+				.then((res) => {
+					if (res.isError) {
+						notify(res.message, "warning");
+					} else {
+						console.log(res.question);
+
+						setLikes(res.question.likes);
+						setIsLiked(res.question.likedBy.includes(parsedUserDetails._id));
+						setIsAttempted(res.question.attemptedBy.includes(parsedUserDetails._id));
+
+						setQuestion(res.question);
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					notify(err.message, "error");
+				});
+		} else {
+			let message = "Please Login first.";
+			notify(message, "error");
+			setTimeout(() => {
+				navigate("/signin");
+			}, 3000);
+		}
 	}, []);
 
 	const answerVisible = () => {
@@ -210,26 +222,32 @@ function Question() {
 	};
 
 	const handelLikeIncrese = () => {
-		fetch(`${questionRoute.updateLike}/${question?._id}`, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: token,
-			},
-		})
-			.then((res) => res.json())
-			.then((res) => {
-				if (res.isError) {
-					notify(res.message, "warning");
-				} else {
-					// setDisplayQuestions(res.questions);
-				}
+		console.log(token);
+		if (token) {
+			fetch(`${questionRoute.updateLike}/${question?._id}`, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: token,
+				},
+				body: JSON.stringify({ action: "increment" }),
 			})
-			.catch((err) => {
-				console.log(err);
-				notify(err.message, "error");
-			});
-	}
+				.then((res) => res.json())
+				.then((res) => {
+					if (res.isError) {
+						notify(res.message, "warning");
+					} else {
+						console.log(res.question);
+						setLikes(res.question.likes);
+						setIsLiked(res.question.likedBy.includes(userId));
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					notify(err.message, "error");
+				});
+		}
+	};
 	return (
 		<div id="question">
 			<div id="top">
@@ -267,11 +285,11 @@ function Question() {
 							size="xl"
 							style={{ color: "#191645" }}
 						/>
-						{" Like "}
+						{isLiked ? " Liked " : " Like "}
 						{likes}
 					</button>
 					<button id="bookmark">
-					<FontAwesomeIcon icon={faBookmark} />
+						<FontAwesomeIcon icon={faBookmark} />
 						{" BookMark"}
 					</button>
 				</div>
