@@ -23,6 +23,7 @@ import google from "../assets/google.svg";
 import chatgpt from "../assets/ChatGPT.png";
 import bard from "../assets/bard.gif";
 import youtube from "../assets/youtube.svg";
+import { userRoutes } from "../api/userRoutes";
 
 function Question() {
 	const { id } = useParams();
@@ -222,32 +223,71 @@ function Question() {
 	};
 
 	const handelLikeIncrese = () => {
-		console.log(token);
 		if (token) {
-			fetch(`${questionRoute.updateLike}/${question?._id}`, {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: token,
-				},
-				body: JSON.stringify({ action: "increment" }),
-			})
-				.then((res) => res.json())
-				.then((res) => {
-					if (res.isError) {
-						notify(res.message, "warning");
-					} else {
-						console.log(res.question);
-						setLikes(res.question.likes);
-						setIsLiked(res.question.likedBy.includes(userId));
-					}
+			if(!isLiked){
+				fetch(`${questionRoute.updateLike}/${question?._id}`, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: token,
+					},
+					body: JSON.stringify({ action: "increment" }),
 				})
-				.catch((err) => {
-					console.log(err);
-					notify(err.message, "error");
-				});
+					.then((res) => res.json())
+					.then((res) => {
+						if (res.isError) {
+							notify(res.message, "warning");
+						} else {
+							console.log(res.question);
+							setLikes(res.question.likes);
+							setIsLiked(res.question.likedBy.includes(userId));
+						}
+					})
+					.catch((err) => {
+						console.log(err);
+						notify(err.message, "error");
+					});
+			}else{
+				let message = "You cannot like one question multiple times.";
+				notify(message, "warning");
+			}
 		}
 	};
+	const handeladdBookmark = ()=>{
+		if (token) {
+			if(!isBookmarked){
+				fetch(`${userRoutes.addBookmark}/${userId}`, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: token,
+					},
+					body: JSON.stringify({ questionID: id, question: question?.question}),
+				})
+					.then((res) => res.json())
+					.then((res) => {
+						if (res.isError) {
+							notify(res.message, "warning");
+						} else {
+							console.log(res);
+							setIsBookmarked(true)
+							if(res.user){
+								notify(res.message, "success");
+							}else{
+								notify(res.message, "warning");
+							}
+						}
+					})
+					.catch((err) => {
+						console.log(err);
+						notify(err.message, "error");
+					});
+			}else{
+				let message = "Question already bookmarked.";
+				notify(message, "warning");
+			}
+		}
+	}
 	return (
 		<div id="question">
 			<div id="top">
@@ -288,9 +328,9 @@ function Question() {
 						{isLiked ? " Liked " : " Like "}
 						{likes}
 					</button>
-					<button id="bookmark">
+					<button id="bookmark" onClick={handeladdBookmark}>
 						<FontAwesomeIcon icon={faBookmark} />
-						{" BookMark"}
+						{isBookmarked ? " BookMarked": " Bookmark"}
 					</button>
 				</div>
 			</div>
