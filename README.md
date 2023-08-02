@@ -1,10 +1,18 @@
 <h1><img src="./src//assets/codepath-logo.png" alt="" width="80px"><span style="position: relative;top: -20px;font-size: 50px;"><span style="color: #43c6ac;">{Code}</span> <span style="color: #FBB950;">Path</span></span></h1>
 
+<<<<<<< HEAD
 <h1>Code Path way to success!</h1>
     <h3>Code Path is an innovative and user-friendly website that empowers aspiring developers and tech enthusiasts to sharpen their coding skills and excel in technical interviews. Our platform offers a comprehensive collection of interview questions from various programming languages, data structures, algorithms, and popular tech domains.</h3>
     <h2>About Us:</h2>
     <h4>At Code Path, our mission is to equip developers with the tools and resources they need to excel in their coding journey. Our team comprises passionate individuals dedicated to fostering a thriving developer community and helping aspiring coders achieve their professional goals.</h4>
 	<h2>Developers</h2>
+=======
+<h1>CodePath way to success!</h1>
+    <h3>Code Path is an innovative and user-friendly website that empowers aspiring developers and tech enthusiasts to sharpen their coding skills and excel in technical interviews. Our platform offers a comprehensive collection of interview questions from various programming languages, data structures, algorithms, and popular tech domains.</h3>
+    <h2>About Us:</h2>
+    <h4>At Code Path, our mission is to equip developers with the tools and resources they need to excel in their coding journey. Our team comprises passionate individuals dedicated to fostering a thriving developer community and helping aspiring coders achieve their professional goals.</h4>
+	<h2>Developer</h2>
+>>>>>>> 36845ba218a6c5e43881252e892da23f52200231
 
 -  [AshiqurRahaman](https://github.com/AshiqurRahaman02)
 
