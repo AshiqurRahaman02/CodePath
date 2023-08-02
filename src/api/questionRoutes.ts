@@ -9,5 +9,6 @@ export const questionRoute = {
     random: `${process.env.REACT_APP_BACKEND_APP_BASE_URL}/question/random`,
     updateQuestion: `${process.env.REACT_APP_BACKEND_APP_BASE_URL}/question/update`,
     updateLike: `${process.env.REACT_APP_BACKEND_APP_BASE_URL}/question/update/like`,
+    attempted: `${process.env.REACT_APP_BACKEND_APP_BASE_URL}/question/update/attempted`,
     delete: `${process.env.REACT_APP_BACKEND_APP_BASE_URL}/question/delete`,
 };

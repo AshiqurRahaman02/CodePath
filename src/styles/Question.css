@@ -173,6 +173,7 @@
 	border: 0px;
 	border-bottom: 1px solid black;
 	margin: 0px 5px;
+	outline: none;
 }
 
 #btns {

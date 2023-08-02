@@ -39,6 +39,8 @@ function Question() {
 	const [isBookmarked, setIsBookmarked] = useState(false);
 	const [isAttempted, setIsAttempted] = useState(false);
 
+	const [userAnswers, setUserAnswers] = useState("");
+
 	const navigate = useNavigate();
 
 	const notify = (message: string, type: string) => {
@@ -269,7 +271,6 @@ function Question() {
 						if (res.isError) {
 							notify(res.message, "warning");
 						} else {
-							console.log(res);
 							setIsBookmarked(true)
 							if(res.user){
 								notify(res.message, "success");
@@ -284,6 +285,34 @@ function Question() {
 					});
 			}else{
 				let message = "Question already bookmarked.";
+				notify(message, "warning");
+			}
+		}
+	}
+	const handelSubmit =() => {
+		if (token) {
+			if(userAnswers){
+				fetch(`${questionRoute.attempted}/${id}`, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: token,
+					},
+				})
+					.then((res) => res.json())
+					.then((res) => {
+						if (res.isError) {
+							notify(res.message, "warning");
+						} else {
+							notify("Congratulation", "success");
+						}
+					})
+					.catch((err) => {
+						console.log(err);
+						notify(err.message, "error");
+					});
+			}else{
+				let message = "Please enter your answer.";
 				notify(message, "warning");
 			}
 		}
@@ -387,19 +416,21 @@ function Question() {
 					<textarea
 						name=""
 						id=""
+						value={userAnswers}
+						onChange={(e)=> setUserAnswers(e.target.value)}
 						rows={10}
 						placeholder="Enter your answer here..."
 					></textarea>
 
-					<button>
-						<span className="text">Get feedback</span>
+					<button onClick={handelSubmit}>
+						<span className="text">Submit</span>
 						<span>Submit </span>
 					</button>
 				</div>
 				<div id="comments">
 					<div>
-						<input type="text" placeholder="Add a comment… " />
-						<button id="add">Add comment</button>
+						<input type="text" placeholder="Enter Your answer..." />
+						<button id="add">Post answer</button>
 					</div>
 					<div>
 						<div></div>

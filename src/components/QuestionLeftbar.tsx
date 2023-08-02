@@ -41,8 +41,6 @@ function QuestionLeftbar({onChange}:Fun) {
 
 		const currentURLWithoutParams =
 			window.location.origin + window.location.pathname;
-		setWindowUrl(currentURLWithoutParams);
-		// console.log(currentURLWithoutParams);
 
 		// Update state based on URL query parameters
 		setSort(searchParams.get("sort") || "");
@@ -99,9 +97,14 @@ function QuestionLeftbar({onChange}:Fun) {
 					searchParams.getAll("skills").includes("others")
 			);
 		}
+
+		setTimeout(() => {
+			setIsFirstTime(false);
+		}, 3000);
 	}, [location.search]);
 
 	const [isFirstTime, setIsFirstTime] = useState(true)
+	
 
 	const updateURL = () => {
 		const searchParams = new URLSearchParams();
@@ -184,8 +187,10 @@ function QuestionLeftbar({onChange}:Fun) {
 
 	// Call the updateURL function whenever any option is selected or changed
 	useEffect(() => {
-		updateURL();
-		setIsFirstTime(false)
+		
+		if(!isFirstTime){
+			updateURL();
+		}
 	}, [
 		sort,
 		isAttempted,

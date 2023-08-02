@@ -19,6 +19,7 @@ import { questionRoute } from "../api/questionRoutes";
 import { IQuestion } from "../utils/Interfaces";
 
 import "../styles/Questions.css";
+import Search from "../components/Search";
 
 function Questions() {
 	const [userDetails, setUserDetails] = useState<any | null>(null);
@@ -227,6 +228,7 @@ function Questions() {
 
 			setUserId(parsedUserDetails._id);
 			setToken(token);
+			console.log(token);
 
 			const currentURLWithoutParams =
 				window.location.origin + window.location.pathname;
@@ -270,58 +272,61 @@ function Questions() {
 		<div>
 			<div id="questionsHeader">
 				<QuestionLeftbar onChange={handleQuestionUpdate} />
-				<div id="parent">
-					{displayQuestions.map((question) => (
-						<div key={question._id}>
-							<div>
-								<h2>
-									<Link to={`/question/${question._id}`}>
-										{question.question}
-									</Link>
-								</h2>
+				<div>
+					<Search/>
+					<div id="parent">
+						{displayQuestions.map((question) => (
+							<div key={question._id}>
+								<div>
+									<h2>
+										<Link to={`/question/${question._id}`}>
+											{question.question}
+										</Link>
+									</h2>
+								</div>
+								<div>
+									<p>
+										<span id={question.skill}>{question.skill}</span>
+										<span>
+											{question.attemptedBy.includes(userId) ? (
+												<span>
+													<FontAwesomeIcon
+														icon={faCircleCheck}
+														style={{ color: "#1aff5e" }}
+													/>{" "}
+													Attemped
+												</span>
+											) : (
+												<span>
+													<FontAwesomeIcon
+														icon={faCircleDot}
+														style={{ color: "#ff0000" }}
+													/>{" "}
+													Not Attemped
+												</span>
+											)}
+										</span>
+									</p>
+									<p>
+										<span id={question.difficulty}>
+											{question.difficulty}
+										</span>
+									</p>
+									<p>
+										<span>Posted by: {question.creatorName}</span>
+										<span>
+											<FontAwesomeIcon
+												icon={faThumbsUp}
+												size="sm"
+												style={{ color: "#191645" }}
+											/>{" "}
+											{question.likes}
+										</span>
+									</p>
+								</div>
 							</div>
-							<div>
-								<p>
-									<span id={question.skill}>{question.skill}</span>
-									<span>
-										{question.attemptedBy.includes(userId) ? (
-											<span>
-												<FontAwesomeIcon
-													icon={faCircleCheck}
-													style={{ color: "#1aff5e" }}
-												/>{" "}
-												Attemped
-											</span>
-										) : (
-											<span>
-												<FontAwesomeIcon
-													icon={faCircleDot}
-													style={{ color: "#ff0000" }}
-												/>{" "}
-												Not Attemped
-											</span>
-										)}
-									</span>
-								</p>
-								<p>
-									<span id={question.difficulty}>
-										{question.difficulty}
-									</span>
-								</p>
-								<p>
-									<span>Posted by: {question.creatorName}</span>
-									<span>
-										<FontAwesomeIcon
-											icon={faThumbsUp}
-											size="sm"
-											style={{ color: "#191645" }}
-										/>{" "}
-										{question.likes}
-									</span>
-								</p>
-							</div>
-						</div>
-					))}
+						))}
+					</div>
 				</div>
 			</div>
 			<ToastContainer />
