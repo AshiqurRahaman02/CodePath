@@ -9,6 +9,7 @@ import {
 	faThumbsUp,
 	faCircleDot,
 	faCircleCheck,
+	faShuffle
 } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -108,9 +109,9 @@ function Questions() {
 			});
 	};
 
-	// const [status, setStatus] = useState("");
-	// const [difficulty, setDifficulty] = useState<string[]>([]); // Set the type to an array of strings
-	// const [skills, setSkills] = useState<string[]>([]);
+	const handelSearch = (searchInput:any)=>{
+		notify("Great things are on the way! Stay tuned for exciting updates as we work diligently to bring you these amazing features.", "info")
+	}
 	const handleQuestionUpdate = (params: any) => {
 		let status = "";
 		let difficulty: any = [];
@@ -218,8 +219,32 @@ function Questions() {
 		}
 	};
 
+	const handelRandomQuestion = () => {
+		const searchParams = new URLSearchParams(location.search)
+		fetch(`${questionRoute.random}?${searchParams}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: token,
+			},
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					console.log(res.question)
+					navigate(`/question/${res.question._id}`)
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
+	}
+
 	useEffect(() => {
-		notify("Please wait for 10s before start filtering", "info");
+		
 		const userDetails = localStorage.getItem("userInfo");
 		const token = localStorage.getItem("token");
 		if (token && userDetails) {
@@ -235,7 +260,7 @@ function Questions() {
 			console.log(currentURLWithoutParams);
 
 			const searchParams = new URLSearchParams(location.search);
-			console.log(searchParams);
+			console.log(searchParams.size);
 
 			fetch(`${questionRoute.byQuery}?${searchParams}`, {
 				method: "GET",
@@ -250,10 +275,14 @@ function Questions() {
 						notify(res.message, "warning");
 					} else {
 						setDisplayQuestions(res.questions);
-						console.log(res.questions[0]);
-						setTimeout(() => {
-							getAllQuestions();
-						}, 5000);
+						if(searchParams.size){
+							notify("Please wait for 5s before start filtering", "info");
+							setTimeout(() => {
+								getAllQuestions();
+							}, 5000);
+						}else{
+							setAllQuestions(res.questions)
+						}
 					}
 				})
 				.catch((err) => {
@@ -273,7 +302,10 @@ function Questions() {
 			<div id="questionsHeader">
 				<QuestionLeftbar onChange={handleQuestionUpdate} />
 				<div>
-					<Search/>
+					<div id="mainTop">
+						<Search onChange={handelSearch}/>
+						<button onClick={handelRandomQuestion}><FontAwesomeIcon icon={faShuffle} /> Pick Random Question</button>
+					</div>
 					<div id="parent">
 						{displayQuestions.map((question) => (
 							<div key={question._id}>

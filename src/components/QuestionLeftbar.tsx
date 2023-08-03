@@ -11,9 +11,9 @@ import "../styles/QuestionLeftbar.css";
 
 interface Fun {
 	onChange: (params: any) => void;
-  }
+}
 
-function QuestionLeftbar({onChange}:Fun) {
+function QuestionLeftbar({ onChange }: Fun) {
 	const location = useLocation();
 	const [isLeftbarVisible, setIsLeftbarVisible] = useState(true);
 
@@ -21,7 +21,7 @@ function QuestionLeftbar({onChange}:Fun) {
 	const navigate = useNavigate();
 
 	const [sort, setSort] = useState(""); // To track the selected sort option
-	
+
 
 	// checkboxes
 	const [isAttempted, setAttempted] = useState(true);
@@ -78,23 +78,23 @@ function QuestionLeftbar({onChange}:Fun) {
 		} else {
 			setJs(
 				searchParams.has("skills") &&
-					searchParams.getAll("skills").includes("js")
+				searchParams.getAll("skills").includes("js")
 			);
 			setNode(
 				searchParams.has("skills") &&
-					searchParams.getAll("skills").includes("node")
+				searchParams.getAll("skills").includes("node")
 			);
 			setTs(
 				searchParams.has("skills") &&
-					searchParams.getAll("skills").includes("ts")
+				searchParams.getAll("skills").includes("ts")
 			);
 			setReact(
 				searchParams.has("skills") &&
-					searchParams.getAll("skills").includes("react")
+				searchParams.getAll("skills").includes("react")
 			);
 			setOthers(
 				searchParams.has("skills") &&
-					searchParams.getAll("skills").includes("others")
+				searchParams.getAll("skills").includes("others")
 			);
 		}
 
@@ -104,7 +104,7 @@ function QuestionLeftbar({onChange}:Fun) {
 	}, [location.search]);
 
 	const [isFirstTime, setIsFirstTime] = useState(true)
-	
+
 
 	const updateURL = () => {
 		const searchParams = new URLSearchParams();
@@ -181,14 +181,14 @@ function QuestionLeftbar({onChange}:Fun) {
 		navigate(`?${searchParams.toString()}`);
 		onChange(searchParams.toString())
 		// if(!isFirstTime){
-			
+
 		// }
 	};
 
 	// Call the updateURL function whenever any option is selected or changed
 	useEffect(() => {
-		
-		if(!isFirstTime){
+
+		if (!isFirstTime) {
 			updateURL();
 		}
 	}, [
@@ -205,7 +205,7 @@ function QuestionLeftbar({onChange}:Fun) {
 		isOthers,
 	]);
 
-	
+
 	const notify = (message: string, type: string) => {
 		if (type === "error") {
 			toast.error(message, {
@@ -282,7 +282,7 @@ function QuestionLeftbar({onChange}:Fun) {
 							name=""
 							id=""
 							value={sort}
-							onChange={()=>notify("Great things are on the way! Stay tuned for exciting updates as we work diligently to bring you these amazing features.","info")}
+							onChange={() => notify("Great things are on the way! Stay tuned for exciting updates as we work diligently to bring you these amazing features.", "info")}
 						>
 							<option value="">Tranding</option>
 							<option value="po">Popularity</option>

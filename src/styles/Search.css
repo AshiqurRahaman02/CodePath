@@ -1,0 +1,16 @@
+#searchIcon{
+    position: relative;
+    left: 18px;
+}
+#searchInput{
+    padding-left: 20px;
+    border: 0px;
+    outline: none;
+    border-bottom: 1px solid black;
+    height: 30px;
+    font-size: 15px;
+}
+#searchButton{
+    height: 30px;
+    font-size: 15px;
+}

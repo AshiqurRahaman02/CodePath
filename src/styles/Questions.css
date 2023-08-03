@@ -1,23 +1,44 @@
-#questionsHeader{
-    width: 94%;
+#questionsHeader {
+	width: 94%;
 	margin: auto;
 	margin-top: 30px;
 	text-align: center;
 	border-radius: 30px;
-    padding: 10px;
+	padding: 10px;
 	margin-bottom: 30px;
-    /* background-color: rgba(255, 255, 255, 0.116); */
+	/* background-color: rgba(255, 255, 255, 0.116); */
 
 	background-color: white;
 	display: flex;
-
-	
 }
-#parent{
+
+#mainTop {
+	width: 94%;
+	margin: 10px auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+#mainTop>button{
+	color: var(--first-color);
+  padding: 10px;
+  background-color: #55e9d5;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 20px;
+
+  border: 0;
+
+
+  cursor: pointer;
+}
+
+#parent {
 	overflow: auto;
-    max-height: 75vh;
-    overflow-y: scroll;
-	
+	max-height: 75vh;
+	overflow-y: scroll;
+
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-evenly;
@@ -32,44 +53,51 @@
 	border-radius: 10px;
 }
 
-#parent>div{
+#parent > div {
 	width: 300px;
 	height: fit-content;
 	padding: 10px;
 	margin: 5px;
 	cursor: pointer;
-    /* box-shadow: .3rem .3rem .6rem var(--greyLight-2), 
+	/* box-shadow: .3rem .3rem .6rem var(--greyLight-2), 
     -.2rem -.2rem .5rem transparent; */
 
 	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-	transition: .5s;
+	transition: 0.5s;
 	border-radius: 20px;
 }
 
-#parent>div:hover{
+#parent > div:hover {
 	transform: scale(1.05);
 }
-a{
+a {
 	color: #000;
 }
-#parent>div p{
+#parent > div p {
 	display: flex;
 	justify-content: space-between;
 	margin: 0px;
 }
-#parent>div span{
+#parent > div span {
 	color: #000;
 	padding: 4px;
 }
-#parent>div #Easy {
+#parent > div #Easy {
 	background-color: rgb(66, 240, 66);
 	border-radius: 5px;
-  }
-  
-  #Medium{
+}
+
+#Medium {
 	background-color: orange;
 	border-radius: 5px;
-  }
-  #Hard{
-	background-color: rgb(255, 39, 39);	border-radius: 5px;
-  }
+}
+#Hard {
+	background-color: rgb(255, 39, 39);
+	border-radius: 5px;
+}
+
+/* @media (max-width: 500px) {
+	#mainTop {
+		flex-direction: column;
+	}
+} */

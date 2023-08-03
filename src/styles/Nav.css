@@ -15,12 +15,14 @@ nav > h1 {
 	width: 220px;
 	position: relative;
 	top: 0px;
+	cursor: pointer;
 	/* margin-left: 5%; */
 }
 
 #codepathLogo {
 	width: 50px;
 	height: 100%;
+	cursor: pointer;
 }
 #name {
 	color: var(--text);
