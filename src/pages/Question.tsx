@@ -17,13 +17,14 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/Navbar";
 import QuestionLeftbar from "../components/QuestionLeftbar";
 import { questionRoute } from "../api/questionRoutes";
-import { IQuestion } from "../utils/Interfaces";
+import { IAnswer, IQuestion } from "../utils/Interfaces";
 import "../styles/Question.css";
 import google from "../assets/google.svg";
 import chatgpt from "../assets/ChatGPT.png";
 import bard from "../assets/bard.gif";
 import youtube from "../assets/youtube.svg";
 import { userRoutes } from "../api/userRoutes";
+import { answerRoute } from "../api/answerRoutes";
 
 function Question() {
 	const { id } = useParams();
@@ -40,6 +41,10 @@ function Question() {
 	const [isAttempted, setIsAttempted] = useState(false);
 
 	const [userAnswers, setUserAnswers] = useState("");
+
+	const [userAnswer, setUserAnswer] = useState("");
+
+	const [allAnswers, setAllAnswers] = useState<IAnswer[]>([]);
 
 	const navigate = useNavigate();
 
@@ -176,6 +181,58 @@ function Question() {
 		);
 	};
 
+	const handelPostAnswer = () => {
+		if(userAnswers){
+			let answer = {
+				userID:userDetails._id,
+				userName:userDetails.name,
+				answer:userAnswer,
+				questionID:id,
+			}
+			
+			fetch(`${answerRoute.create}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: token,
+				},
+				body: JSON.stringify(answer)
+			})
+				.then((res) => res.json())
+				.then((res) => {
+					if (res.isError) {
+						notify(res.message, "warning");
+					} else {
+						notify(res.message, "success");
+						getAnswers()
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					notify(err.message, "error");
+				});
+		}else{
+			notify("Please Enter Your Answer", "warning");
+		}
+	}
+
+	const getAnswers = ()=>{
+		fetch(`${answerRoute.answerInQuestion}/${id}`)
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					console.log(res.answers)
+					setAllAnswers(res.answers)
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
+	}
+
 	useEffect(() => {
 		const userDetails = localStorage.getItem("userInfo");
 		const token = localStorage.getItem("token");
@@ -205,6 +262,8 @@ function Question() {
 						setIsAttempted(res.question.attemptedBy.includes(parsedUserDetails._id));
 
 						setQuestion(res.question);
+
+						getAnswers()
 					}
 				})
 				.catch((err) => {
@@ -429,11 +488,14 @@ function Question() {
 				</div>
 				<div id="comments">
 					<div>
-						<input type="text" placeholder="Enter Your answer..." />
-						<button id="add">Post answer</button>
+						<textarea placeholder="Enter Your answer..." value={userAnswer} onChange={(e)=>setUserAnswer(e.target.value)}></textarea>
+						<button id="add" onClick={handelPostAnswer}>Post answer</button>
 					</div>
 					<div>
-						<div></div>
+						{/* {allAnswers.map((answer)=>{
+							<div key={answer._id}>
+							</div>
+						})} */}
 					</div>
 				</div>
 			</div>
