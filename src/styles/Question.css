@@ -167,13 +167,17 @@
 	margin-top: 20px;
 	width: 100%;
 }
-#comments > div:nth-child(1) > input {
+#comments > div:nth-child(1) > textarea {
 	width: 50%;
 	height: 30px;
 	border: 0px;
 	border-bottom: 1px solid black;
 	margin: 0px 5px;
 	outline: none;
+	resize: none;
+}
+#add {
+	top: -10px;
 }
 
 #btns {
