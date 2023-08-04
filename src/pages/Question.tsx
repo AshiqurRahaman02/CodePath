@@ -10,6 +10,7 @@ import {
 	faCircleCheck,
 	faChevronUp,
 	faBookmark,
+	faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -182,56 +183,91 @@ function Question() {
 	};
 
 	const handelPostAnswer = () => {
-		if(userAnswers){
+		if (userAnswer) {
 			let answer = {
-				userID:userDetails._id,
-				userName:userDetails.name,
-				answer:userAnswer,
-				questionID:id,
-			}
-			
+				userID: userDetails._id,
+				userName: userDetails.name,
+				answer: userAnswer,
+				questionID: id,
+			};
+
 			fetch(`${answerRoute.create}`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: token,
 				},
-				body: JSON.stringify(answer)
+				body: JSON.stringify(answer),
 			})
 				.then((res) => res.json())
 				.then((res) => {
 					if (res.isError) {
 						notify(res.message, "warning");
 					} else {
+						console.log(res);
 						notify(res.message, "success");
-						getAnswers()
+						getAnswers();
 					}
 				})
 				.catch((err) => {
 					console.log(err);
 					notify(err.message, "error");
 				});
-		}else{
+		} else {
+			console.log(userAnswer);
 			notify("Please Enter Your Answer", "warning");
 		}
-	}
+	};
 
-	const getAnswers = ()=>{
+	const getAnswers = () => {
 		fetch(`${answerRoute.answerInQuestion}/${id}`)
 			.then((res) => res.json())
 			.then((res) => {
 				if (res.isError) {
 					notify(res.message, "warning");
 				} else {
-					console.log(res.answers)
-					setAllAnswers(res.answers)
+					console.log(res.answers);
+					setAllAnswers(res.answers);
 				}
 			})
 			.catch((err) => {
 				console.log(err);
 				notify(err.message, "error");
 			});
-	}
+	};
+
+	function getTimeAgoString(dateString:string) {
+		const currentDate = new Date();
+		const date = new Date(dateString);
+		const timeDifference = currentDate.getTime() - date.getTime();
+		
+		const minuteInMs = 60 * 1000;
+		const hourInMs = 60 * minuteInMs;
+		const dayInMs = 24 * hourInMs;
+		const monthInMs = 30 * dayInMs;
+		const yearInMs = 365 * dayInMs;
+	  
+		if (timeDifference < minuteInMs) {
+		  const secondsAgo = Math.floor(timeDifference / 1000);
+		  return `${secondsAgo} seconds ago`;
+		} else if (timeDifference < hourInMs) {
+		  const minutesAgo = Math.floor(timeDifference / minuteInMs);
+		  return `${minutesAgo} minutes ago`;
+		} else if (timeDifference < dayInMs) {
+		  const hoursAgo = Math.floor(timeDifference / hourInMs);
+		  return `${hoursAgo} hours ago`;
+		} else if (timeDifference < monthInMs) {
+		  const daysAgo = Math.floor(timeDifference / dayInMs);
+		  return `${daysAgo} days ago`;
+		} else if (timeDifference < yearInMs) {
+		  const monthsAgo = Math.floor(timeDifference / monthInMs);
+		  return `${monthsAgo} months ago`;
+		} else {
+		  const yearsAgo = Math.floor(timeDifference / yearInMs);
+		  return `${yearsAgo} years ago`;
+		}
+	  }
+	  
 
 	useEffect(() => {
 		const userDetails = localStorage.getItem("userInfo");
@@ -258,12 +294,16 @@ function Question() {
 						console.log(res.question);
 
 						setLikes(res.question.likes);
-						setIsLiked(res.question.likedBy.includes(parsedUserDetails._id));
-						setIsAttempted(res.question.attemptedBy.includes(parsedUserDetails._id));
+						setIsLiked(
+							res.question.likedBy.includes(parsedUserDetails._id)
+						);
+						setIsAttempted(
+							res.question.attemptedBy.includes(parsedUserDetails._id)
+						);
 
 						setQuestion(res.question);
 
-						getAnswers()
+						getAnswers();
 					}
 				})
 				.catch((err) => {
@@ -285,7 +325,7 @@ function Question() {
 
 	const handelLikeIncrese = () => {
 		if (token) {
-			if(!isLiked){
+			if (!isLiked) {
 				fetch(`${questionRoute.updateLike}/${question?._id}`, {
 					method: "PUT",
 					headers: {
@@ -308,32 +348,35 @@ function Question() {
 						console.log(err);
 						notify(err.message, "error");
 					});
-			}else{
+			} else {
 				let message = "You cannot like one question multiple times.";
 				notify(message, "warning");
 			}
 		}
 	};
-	const handeladdBookmark = ()=>{
+	const handeladdBookmark = () => {
 		if (token) {
-			if(!isBookmarked){
+			if (!isBookmarked) {
 				fetch(`${userRoutes.addBookmark}/${userId}`, {
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: token,
 					},
-					body: JSON.stringify({ questionID: id, question: question?.question}),
+					body: JSON.stringify({
+						questionID: id,
+						question: question?.question,
+					}),
 				})
 					.then((res) => res.json())
 					.then((res) => {
 						if (res.isError) {
 							notify(res.message, "warning");
 						} else {
-							setIsBookmarked(true)
-							if(res.user){
+							setIsBookmarked(true);
+							if (res.user) {
 								notify(res.message, "success");
-							}else{
+							} else {
 								notify(res.message, "warning");
 							}
 						}
@@ -342,15 +385,15 @@ function Question() {
 						console.log(err);
 						notify(err.message, "error");
 					});
-			}else{
+			} else {
 				let message = "Question already bookmarked.";
 				notify(message, "warning");
 			}
 		}
-	}
-	const handelSubmit =() => {
+	};
+	const handelSubmit = () => {
 		if (token) {
-			if(userAnswers){
+			if (userAnswers) {
 				fetch(`${questionRoute.attempted}/${id}`, {
 					method: "PUT",
 					headers: {
@@ -370,12 +413,12 @@ function Question() {
 						console.log(err);
 						notify(err.message, "error");
 					});
-			}else{
+			} else {
 				let message = "Please enter your answer.";
 				notify(message, "warning");
 			}
 		}
-	}
+	};
 	return (
 		<div id="question">
 			<div id="top">
@@ -418,7 +461,7 @@ function Question() {
 					</button>
 					<button id="bookmark" onClick={handeladdBookmark}>
 						<FontAwesomeIcon icon={faBookmark} />
-						{isBookmarked ? " BookMarked": " Bookmark"}
+						{isBookmarked ? " BookMarked" : " Bookmark"}
 					</button>
 				</div>
 			</div>
@@ -476,7 +519,7 @@ function Question() {
 						name=""
 						id=""
 						value={userAnswers}
-						onChange={(e)=> setUserAnswers(e.target.value)}
+						onChange={(e) => setUserAnswers(e.target.value)}
 						rows={10}
 						placeholder="Enter your answer here..."
 					></textarea>
@@ -487,15 +530,41 @@ function Question() {
 					</button>
 				</div>
 				<div id="comments">
+					<h3>{allAnswers.length} Answers</h3>
 					<div>
-						<textarea placeholder="Enter Your answer..." value={userAnswer} onChange={(e)=>setUserAnswer(e.target.value)}></textarea>
-						<button id="add" onClick={handelPostAnswer}>Post answer</button>
+						<textarea
+							placeholder="Enter Your answer..."
+							value={userAnswer}
+							onChange={(e) => setUserAnswer(e.target.value)}
+						></textarea>
+						<button id="add" onClick={handelPostAnswer}>
+							Post answer
+						</button>
 					</div>
 					<div>
-						{/* {allAnswers.map((answer)=>{
-							<div key={answer._id}>
+						{allAnswers.map((answer) => (
+							<div key={answer._id} id="comment">
+								<div>
+									<FontAwesomeIcon icon={faUser} size="2xl" style={{ color: "#191645" }}/>
+								</div>
+								<div>
+									<p>
+										{answer.userName} <span  style={{ color: "#191645" , fontSize: "13px" }}>{getTimeAgoString(answer.createdAt)}</span>
+									</p>
+									<p>
+										{answer.answer}{" "} <br />
+										<span style={{ color: "#191645" , fontSize: "15px" , marginTop:"10px" , cursor:"pointer"}}>
+											<FontAwesomeIcon
+												icon={faThumbsUp}
+												size="sm"
+												style={{ color: "#191645" }}
+											/>{" "}
+											 {answer.likes}
+										</span>
+									</p>
+								</div>
 							</div>
-						})} */}
+						))}
 					</div>
 				</div>
 			</div>

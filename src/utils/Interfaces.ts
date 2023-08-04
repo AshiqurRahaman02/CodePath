@@ -18,4 +18,5 @@ export interface IAnswer {
 	userName: string;
 	answer: string;
 	likes: number;
+	createdAt: string;
 }
