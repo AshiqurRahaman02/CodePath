@@ -90,14 +90,18 @@
 	color: black;
 }
 #textarea > textarea {
-	width: 99%;
+	width: 99.5%;
 	margin: auto;
 	margin-top: 20px;
 	resize: none;
 	outline: none;
 }
+#textarea>div{
+	display: flex;
+	justify-content: space-between;
+}
 
-#textarea > button,
+#textarea  button,
 #add {
 	margin-top: -5px;
 	height: 30px;
@@ -117,13 +121,13 @@
 	touch-action: manipulation;
 }
 
-#textarea > button span:first-child {
+#textarea  button span:first-child {
 	position: relative;
 	transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
 	z-index: 10;
 }
 
-#textarea > button span:last-child {
+#textarea  button span:last-child {
 	color: rgb(0, 0, 0);
 	display: block;
 	position: absolute;
@@ -138,7 +142,7 @@
 	line-height: 30px;
 }
 
-#textarea > button:after {
+#textarea  button:after {
 	content: "";
 	position: absolute;
 	bottom: -50%;
@@ -152,12 +156,12 @@
 	z-index: 50;
 }
 
-#textarea > button:hover:after {
+#textarea  button:hover:after {
 	transform-origin: bottom center;
 	transform: skewY(9.3deg) scaleY(2);
 }
 
-#textarea > button:hover span:last-child {
+#textarea  button:hover span:last-child {
 	transform: translateX(-50%) translateY(-100%);
 	opacity: 1;
 	transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
