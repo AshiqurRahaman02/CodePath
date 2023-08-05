@@ -11,6 +11,7 @@ import {
 	faChevronUp,
 	faBookmark,
 	faUser,
+	faArrowRight
 } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -419,6 +420,43 @@ function Question() {
 			}
 		}
 	};
+	const handelNext = () => {
+		const Obj: Record<string, string> = {
+			"JavaScript": "js",
+			"Node Js": "node",
+			"TypeScript": "ts",
+			"React": "react"
+		  };
+		  
+		  let skill = "others";
+		  
+		  if (question?.skill && Obj.hasOwnProperty(question.skill)) {
+			skill = Obj[question.skill];
+			console.log(skill);
+		  }
+		  
+		let query =`s=not&skills=${skill}`
+		fetch(`${questionRoute.random}?${query}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: token,
+			},
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					console.log(res.question)
+					window.location.href=`/question/${res.question._id}`
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
+	}
 	return (
 		<div id="question">
 			<div id="top">
@@ -524,10 +562,16 @@ function Question() {
 						placeholder="Enter your answer here..."
 					></textarea>
 
+					<div>
 					<button onClick={handelSubmit}>
 						<span className="text">Submit</span>
 						<span>Submit </span>
 					</button>
+					<button onClick={handelNext}>
+						<span className="text">Next Question</span>
+						<span><FontAwesomeIcon icon={faArrowRight} /></span>
+					</button>
+					</div>
 				</div>
 				<div id="comments">
 					<h3>{allAnswers.length} Answers</h3>
