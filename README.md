@@ -2,7 +2,7 @@
 
 
 <h1>Code Path way to success!</h1>
-    <h3>Code Path is an innovative and user-friendly website that empowers aspiring developers and tech enthusiasts to sharpen their coding skills and excel in technical interviews. Our platform offers a comprehensive collection of interview questions from various programming languages, data structures, algorithms, and popular tech domains.</h3>
+    <h3>CodePath is an innovative and user-friendly platform that helps aspiring developers and tech enthusiasts sharpen their coding skills and excel in technical interviews. Our platform offers a comprehensive collection of interview questions from various programming languages, data structures, algorithms, and popular tech domains. We also provide a variety of resources and support, such as interactive tutorials, practice problems, and mentorship, to help you succeed.</h3>
     <h2>About Us:</h2>
     <h4>At Code Path, our mission is to equip developers with the tools and resources they need to excel in their coding journey. Our team comprises passionate individuals dedicated to fostering a thriving developer community and helping aspiring coders achieve their professional goals.</h4>
 	<h2>Developers</h2>
