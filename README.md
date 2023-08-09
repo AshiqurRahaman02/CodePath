@@ -1,4 +1,4 @@
-<h1><img src="./src//assets/codepath-logo.png" alt="" width="80px"><span style="position: relative;top: -20px;font-size: 50px;"><span style="color: #43c6ac;">{Code}</span> <span style="color: #FBB950;">Path</span></span></h1>
+<h1><img src="./src//assets/codepath-logo.png" alt="" width="80px"><span style="position: relative;top: -20px;font-size: 150px;"><span style="color: #43c6ac;">{Code}</span> <span style="color: #FBB950;">Path</span></span></h1>
 
 
 <h1>Code Path way to success!</h1>
