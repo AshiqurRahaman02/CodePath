@@ -4,8 +4,6 @@ import { useNavigate, Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faCheck,
-	faTimes,
 	faThumbsUp,
 	faCircleDot,
 	faCircleCheck,
@@ -14,7 +12,6 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import Navbar from "../components/Navbar";
 import QuestionLeftbar from "../components/QuestionLeftbar";
 import { questionRoute } from "../api/questionRoutes";
 import { IQuestion } from "../utils/Interfaces";
@@ -99,7 +96,6 @@ function Questions() {
 				if (res.isError) {
 					notify(res.message, "warning");
 				} else {
-					console.log("Success");
 					setAllQuestions(res.questions);
 				}
 			})
@@ -116,10 +112,6 @@ function Questions() {
 		let status = "";
 		let difficulty: any = [];
 		let skills: any = [];
-		console.log(params, status, difficulty, skills);
-		let isStatus = false;
-		let isDifficulty = false;
-		let isSkill = false;
 		if (params) {
 			const skillMap: Record<string, string> = {
 				js: "JavaScript",
@@ -211,8 +203,6 @@ function Questions() {
 
 				return true;
 			});
-			console.log("dslkja");
-			console.log(filteredQuestions);
 			setDisplayQuestions(filteredQuestions);
 		} else {
 			setDisplayQuestions(allQuestions);
@@ -233,7 +223,6 @@ function Questions() {
 				if (res.isError) {
 					notify(res.message, "warning");
 				} else {
-					console.log(res.question)
 					navigate(`/question/${res.question._id}`)
 				}
 			})
@@ -253,14 +242,11 @@ function Questions() {
 
 			setUserId(parsedUserDetails._id);
 			setToken(token);
-			console.log(token);
 
 			const currentURLWithoutParams =
 				window.location.origin + window.location.pathname;
-			console.log(currentURLWithoutParams);
 
 			const searchParams = new URLSearchParams(location.search);
-			console.log(searchParams.size);
 
 			fetch(`${questionRoute.byQuery}?${searchParams}`, {
 				method: "GET",

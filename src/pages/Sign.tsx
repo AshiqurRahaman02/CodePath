@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import SignUp from "../components/SignUp";
 import SignIn from "../components/SignIn";
-import Navbar from "../components/Navbar";
 
 import "../styles/Sign.css";
 
