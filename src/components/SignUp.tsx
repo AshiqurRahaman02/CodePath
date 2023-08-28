@@ -8,7 +8,6 @@ import "../styles/Signin.css";
 import { userRoutes } from "../api/userRoutes";
 
 import Popup from "./PopUp";
-import Loading from "../components/Loading";
 
 const SignUp = () => {
 	const [signUpName, setSignUpName] = useState("");
@@ -126,7 +125,6 @@ const SignUp = () => {
 	}
 
 	const handleSuccessfulSignup = (res: any) => {
-		console.log(res);
 		let user = res.user;
 		localStorage.setItem("userInfo", JSON.stringify(user));
 		localStorage.setItem("token", res.token);
@@ -141,7 +139,6 @@ const SignUp = () => {
 			signUpFunction();
 			// setShowPopup(false);
 		} else {
-			console.log(`${otp}`);
 
 			let message = "Incorrect OTP submission";
 			notify(message, "error");

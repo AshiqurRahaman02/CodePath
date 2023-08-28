@@ -17,7 +17,6 @@ function QuestionLeftbar({ onChange }: Fun) {
 	const location = useLocation();
 	const [isLeftbarVisible, setIsLeftbarVisible] = useState(true);
 
-	const [windowUrl, setWindowUrl] = useState("");
 	const navigate = useNavigate();
 
 	const [sort, setSort] = useState(""); // To track the selected sort option
@@ -39,8 +38,6 @@ function QuestionLeftbar({ onChange }: Fun) {
 	useEffect(() => {
 		const searchParams = new URLSearchParams(location.search);
 
-		const currentURLWithoutParams =
-			window.location.origin + window.location.pathname;
 
 		// Update state based on URL query parameters
 		setSort(searchParams.get("sort") || "");
@@ -177,7 +174,6 @@ function QuestionLeftbar({ onChange }: Fun) {
 			});
 		}
 
-		// console.log(searchParams.toString());
 		navigate(`?${searchParams.toString()}`);
 		onChange(searchParams.toString())
 		// if(!isFirstTime){
@@ -204,6 +200,7 @@ function QuestionLeftbar({ onChange }: Fun) {
 		isReact,
 		isOthers,
 	]);
+	
 
 
 	const notify = (message: string, type: string) => {

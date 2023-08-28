@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faCheck,
-	faTimes,
 	faThumbsUp,
 	faCircleDot,
 	faCircleCheck,
@@ -16,8 +14,6 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import Navbar from "../components/Navbar";
-import QuestionLeftbar from "../components/QuestionLeftbar";
 import { questionRoute } from "../api/questionRoutes";
 import { IAnswer, IQuestion } from "../utils/Interfaces";
 import "../styles/Question.css";
@@ -110,7 +106,6 @@ function Question() {
 	};
 
 	const handelGoogle = () => {
-		console.log(question?.question);
 
 		let url = "https://www.google.com/search?q=";
 		let q: any = question?.question.split(" ");
@@ -127,7 +122,6 @@ function Question() {
 	};
 
 	const handelYoutube = () => {
-		console.log(question?.question);
 
 		let url = "https://www.youtube.com/results?search_query=";
 		let q: any = question?.question.split(" ");
@@ -145,7 +139,6 @@ function Question() {
 
 	const handelChatGPT = () => {
 		let q: any = question?.question;
-		console.log(q);
 
 		navigator.clipboard.writeText(q).then(
 			function () {
@@ -165,7 +158,6 @@ function Question() {
 
 	const handelBard = () => {
 		let q: any = question?.question;
-		console.log(q);
 
 		navigator.clipboard.writeText(q).then(
 			function () {
@@ -205,7 +197,6 @@ function Question() {
 					if (res.isError) {
 						notify(res.message, "warning");
 					} else {
-						console.log(res);
 						notify(res.message, "success");
 						getAnswers();
 					}
@@ -215,7 +206,6 @@ function Question() {
 					notify(err.message, "error");
 				});
 		} else {
-			console.log(userAnswer);
 			notify("Please Enter Your Answer", "warning");
 		}
 	};
@@ -227,7 +217,6 @@ function Question() {
 				if (res.isError) {
 					notify(res.message, "warning");
 				} else {
-					console.log(res.answers);
 					setAllAnswers(res.answers);
 				}
 			})
@@ -292,7 +281,6 @@ function Question() {
 					if (res.isError) {
 						notify(res.message, "warning");
 					} else {
-						console.log(res.question);
 
 						setLikes(res.question.likes);
 						setIsLiked(
@@ -340,7 +328,6 @@ function Question() {
 						if (res.isError) {
 							notify(res.message, "warning");
 						} else {
-							console.log(res.question);
 							setLikes(res.question.likes);
 							setIsLiked(res.question.likedBy.includes(userId));
 						}
@@ -432,7 +419,6 @@ function Question() {
 		  
 		  if (question?.skill && Obj.hasOwnProperty(question.skill)) {
 			skill = Obj[question.skill];
-			console.log(skill);
 		  }
 		  
 		let query =`s=not&skills=${skill}`
@@ -448,12 +434,10 @@ function Question() {
 				if (res.isError) {
 					notify(res.message, "warning");
 				} else {
-					console.log(res.question)
 					window.location.href=`/question/${res.question._id}`
 				}
 			})
 			.catch((err) => {
-				console.log(err);
 				notify(err.message, "error");
 			});
 	}

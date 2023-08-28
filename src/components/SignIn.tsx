@@ -104,7 +104,6 @@ const SignIn = () => {
 	};
 
 	const handleSuccessfulSignin = (res: any) => {
-		console.log(res);
 		let user = res.user;
 		localStorage.setItem("userInfo", JSON.stringify(user));
 		localStorage.setItem("token", res.token);
@@ -123,7 +122,6 @@ const SignIn = () => {
 			signInFunction()
 			// setShowPopup(false);
 		} else {
-			console.log(`${otp}`);
 
 			let message = "Incorrect OTP submission";
 			notify(message, "success");
