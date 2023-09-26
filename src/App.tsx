@@ -6,6 +6,7 @@ import SignIn from './pages/Sign';
 import Questions from './pages/Questions';
 import Question from './pages/Question';
 import Navbar from './components/Navbar';
+import Add from './pages/Add';
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/question/:id" element={<Question />} />
+        <Route path="/add" element={<Add />} />
       </Routes>
     </Router>
   );
