@@ -1,0 +1,132 @@
+
+  
+
+.button-57 {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #18181a;
+  color: #18181a;
+  display: inline-block;
+  font-size: 15px;
+  line-height: 15px;
+  padding: 7px 18px 17px;
+  text-decoration: none;
+  cursor: pointer;
+  background: #fff;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-57 span:first-child {
+  position: relative;
+  transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
+  z-index: 10;
+}
+
+.button-57 span:last-child {
+  color: white;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  transition: all 500ms cubic-bezier(0.48, 0, 0.12, 1);
+  z-index: 100;
+  opacity: 0;
+  top: 50%;
+  left: 50%;
+  transform: translateY(225%) translateX(-50%);
+  height: 14px;
+  line-height: 13px;
+}
+
+.button-57:after {
+  content: "";
+  position: absolute;
+  bottom: -50%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  transform-origin: bottom center;
+  transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
+  transform: skewY(9.3deg) scaleY(0);
+  z-index: 50;
+}
+
+.button-57:hover:after {
+  transform-origin: bottom center;
+  transform: skewY(9.3deg) scaleY(2);
+}
+
+.button-57:hover span:last-child {
+  transform: translateX(-50%) translateY(-100%);
+  opacity: 1;
+  transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
+}
+
+
+
+#signinForm {
+	background-color: aquamarine;
+	width: 300px;
+	height: 60vh;
+	padding: 30px;
+	margin: 30px auto 0px;
+}
+#signinForm>p{
+	font-size: 20px;
+	color: rgb(115, 116, 117);
+}
+#signinForm > div {
+	position: relative;
+}
+#emailInput,
+#passwordInput {
+	height: 30px;
+	font-size: 17px;
+	border-radius: 3px;
+	background-color: transparent;
+	padding-left: 5px;
+	outline: none;
+	border: var(--first-color) 3px solid;
+}
+#emailInput {
+	margin-bottom: 30px;
+}
+#emailInput,
+#passwordInput {
+	width: 90%;
+}
+#emailInput::placeholder {
+	color: transparent;
+}
+#emailInput:placeholder-shown ~ #form-label{
+	cursor: text;
+	top: 5px;
+	font-size: 17px;
+}
+#form-label {
+	position: absolute;
+	display: block;
+	font-size: 14px;
+	top: -13px;
+	left: 5px;
+	transition: 0.5s;
+	padding: 0px 2px;
+	background-color: aquamarine;
+}
+
+
+
+#submitButton{
+	margin-top: 30px;
+	width: 110px;
+	height: 40px;
+	border: 0px;
+	background: var(--first-color);
+	font-size: 17px;
+	color: var(--text);
+	border-radius: 5px;
+	transition: 0.5s;
+    cursor: pointer;
+}
