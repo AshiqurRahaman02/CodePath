@@ -80,8 +80,7 @@
 #signinForm > div {
 	position: relative;
 }
-#emailInput,
-#passwordInput {
+#input {
 	height: 30px;
 	font-size: 17px;
 	border-radius: 3px;
@@ -90,17 +89,17 @@
 	outline: none;
 	border: var(--first-color) 3px solid;
 }
-#emailInput {
+#input {
 	margin-bottom: 30px;
 }
-#emailInput,
+#input,
 #passwordInput {
 	width: 90%;
 }
-#emailInput::placeholder {
+#input::placeholder {
 	color: transparent;
 }
-#emailInput:placeholder-shown ~ #form-label{
+#input:placeholder-shown ~ #form-label{
 	cursor: text;
 	top: 5px;
 	font-size: 17px;
