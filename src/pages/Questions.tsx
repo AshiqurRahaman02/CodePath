@@ -7,12 +7,13 @@ import {
 	faThumbsUp,
 	faCircleDot,
 	faCircleCheck,
-	faShuffle
+	faShuffle,
 } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import QuestionLeftbar from "../components/QuestionLeftbar";
+import QuestionTemplate from "../components/QuestionTemplate";
 import { questionRoute } from "../api/questionRoutes";
 import { IQuestion } from "../utils/Interfaces";
 
@@ -26,6 +27,8 @@ function Questions() {
 
 	const [displayQuestions, setDisplayQuestions] = useState<IQuestion[]>([]);
 	const [allQuestions, setAllQuestions] = useState<IQuestion[]>([]);
+
+	const [isLoading, setIsLoading] = useState(true);
 
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -105,9 +108,12 @@ function Questions() {
 			});
 	};
 
-	const handelSearch = (searchInput:any)=>{
-		notify("Great things are on the way! Stay tuned for exciting updates as we work diligently to bring you these amazing features.", "info")
-	}
+	const handelSearch = (searchInput: any) => {
+		notify(
+			"Great things are on the way! Stay tuned for exciting updates as we work diligently to bring you these amazing features.",
+			"info"
+		);
+	};
 	const handleQuestionUpdate = (params: any) => {
 		let status = "";
 		let difficulty: any = [];
@@ -203,14 +209,16 @@ function Questions() {
 
 				return true;
 			});
+			setIsLoading(false)
 			setDisplayQuestions(filteredQuestions);
 		} else {
+			setIsLoading(false)
 			setDisplayQuestions(allQuestions);
 		}
 	};
 
 	const handelRandomQuestion = () => {
-		const searchParams = new URLSearchParams(location.search)
+		const searchParams = new URLSearchParams(location.search);
 		fetch(`${questionRoute.random}?${searchParams}`, {
 			method: "GET",
 			headers: {
@@ -223,17 +231,16 @@ function Questions() {
 				if (res.isError) {
 					notify(res.message, "warning");
 				} else {
-					navigate(`/question/${res.question._id}`)
+					navigate(`/question/${res.question._id}`);
 				}
 			})
 			.catch((err) => {
 				console.log(err);
 				notify(err.message, "error");
 			});
-	}
+	};
 
 	useEffect(() => {
-		
 		const userDetails = localStorage.getItem("userInfo");
 		const token = localStorage.getItem("token");
 		if (token && userDetails) {
@@ -260,14 +267,18 @@ function Questions() {
 					if (res.isError) {
 						notify(res.message, "warning");
 					} else {
+						setIsLoading(false)
 						setDisplayQuestions(res.questions);
-						if(searchParams.size){
-							notify("Please wait for 5s before start filtering", "info");
+						if (searchParams.size) {
+							notify(
+								"Please wait for 5s before start filtering",
+								"info"
+							);
 							setTimeout(() => {
 								getAllQuestions();
 							}, 5000);
-						}else{
-							setAllQuestions(res.questions)
+						} else {
+							setAllQuestions(res.questions);
 						}
 					}
 				})
@@ -289,62 +300,72 @@ function Questions() {
 				<QuestionLeftbar onChange={handleQuestionUpdate} />
 				<div>
 					<div id="mainTop">
-						<Search onChange={handelSearch}/>
-						<button onClick={handelRandomQuestion}><FontAwesomeIcon icon={faShuffle} /> Pick Random Question</button>
+						<Search onChange={handelSearch} />
+						<button onClick={handelRandomQuestion}>
+							<FontAwesomeIcon icon={faShuffle} /> Pick Random Question
+						</button>
 					</div>
-					<div id="parent">
-						{displayQuestions.map((question) => (
-							<div key={question._id}>
-								<div>
-									<h2>
-										<Link to={`/question/${question._id}`}>
-											{question.question}
-										</Link>
-									</h2>
+					
+						{isLoading ? (
+							<QuestionTemplate />
+						) : (
+							<div id="parent">
+							{displayQuestions.map((question) => (
+								<div key={question._id}>
+									<div>
+										<h2>
+											<Link to={`/question/${question._id}`}>
+												{question.question}
+											</Link>
+										</h2>
+									</div>
+									<div>
+										<p>
+											<span id={question.skill}>
+												{question.skill}
+											</span>
+											<span>
+												{question.attemptedBy.includes(userId) ? (
+													<span>
+														<FontAwesomeIcon
+															icon={faCircleCheck}
+															style={{ color: "#1aff5e" }}
+														/>{" "}
+														Attemped
+													</span>
+												) : (
+													<span>
+														<FontAwesomeIcon
+															icon={faCircleDot}
+															style={{ color: "#ff0000" }}
+														/>{" "}
+														Not Attemped
+													</span>
+												)}
+											</span>
+										</p>
+										<p>
+											<span id={question.difficulty}>
+												{question.difficulty}
+											</span>
+										</p>
+										<p>
+											<span>Posted by: {question.creatorName}</span>
+											<span>
+												<FontAwesomeIcon
+													icon={faThumbsUp}
+													size="sm"
+													style={{ color: "#191645" }}
+												/>{" "}
+												{question.likes}
+											</span>
+										</p>
+									</div>
 								</div>
-								<div>
-									<p>
-										<span id={question.skill}>{question.skill}</span>
-										<span>
-											{question.attemptedBy.includes(userId) ? (
-												<span>
-													<FontAwesomeIcon
-														icon={faCircleCheck}
-														style={{ color: "#1aff5e" }}
-													/>{" "}
-													Attemped
-												</span>
-											) : (
-												<span>
-													<FontAwesomeIcon
-														icon={faCircleDot}
-														style={{ color: "#ff0000" }}
-													/>{" "}
-													Not Attemped
-												</span>
-											)}
-										</span>
-									</p>
-									<p>
-										<span id={question.difficulty}>
-											{question.difficulty}
-										</span>
-									</p>
-									<p>
-										<span>Posted by: {question.creatorName}</span>
-										<span>
-											<FontAwesomeIcon
-												icon={faThumbsUp}
-												size="sm"
-												style={{ color: "#191645" }}
-											/>{" "}
-											{question.likes}
-										</span>
-									</p>
-								</div>
+							))}
 							</div>
-						))}
-					</div>
+						)}
+					
 				</div>
 			</div>
 			<ToastContainer />
