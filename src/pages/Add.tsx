@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import LinearProgress from "@mui/material/LinearProgress";
 
 import { questionRoute } from "../api/questionRoutes";
 
@@ -13,10 +14,13 @@ function Add() {
 	const [skill, setSkill] = useState("");
 	const [otherSkill, setOtherSkill] = useState("");
 	const [level, setLevel] = useState("");
-	
+
 	const [userDetails, setUserDetails] = useState<any | null>(null);
 	const [userId, setUserId] = useState<any | null>();
 	const [token, setToken] = useState<any | null>();
+
+	const [progress, setProgress] = useState(0);
+	const [isProgress, setIsProgress] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -43,48 +47,51 @@ function Add() {
 
 	const handelSubmit = (e: any) => {
 		e.preventDefault();
-		
-		if(question && answer && skill && level){
-			if(skill === "Other" && !otherSkill) {
+
+		if (question && answer && skill && level) {
+			if (skill === "Other" && !otherSkill) {
 				let message = "Please enter a valid skill for this question";
 				notify(message, "warning");
-			}else{
-				postQuestion()
+			} else {
+				setProgress(0);
+				displayProgressBar();
+				setTimeout(() => {
+					setIsProgress(false);
+				}, 10000);
+
+				postQuestion();
 			}
-		}else{
-			if(!question){
+		} else {
+			if (!question) {
 				let message = "Please enter a valid question";
 				notify(message, "warning");
-			}else
-			if(!answer){
+			} else if (!answer) {
 				let message = "Please enter a valid answer";
 				notify(message, "warning");
-			}else
-			if(!skill){
+			} else if (!skill) {
 				let message = "Please choose a valid skill";
 				notify(message, "warning");
-			}else
-			if(!level){
+			} else if (!level) {
 				let message = "Please choose a valid level";
 				notify(message, "warning");
-			}else{
+			} else {
 				let message = "Please try again";
 				notify(message, "defult");
 			}
 		}
 	};
 
-	const postQuestion = ()=>{
+	const postQuestion = () => {
 		let object = {
 			question,
 			answer,
 			skill,
-			level,
-			creatorID: userId , 
-			creatorName: userDetails.name
-		}
-		if(skill === "Other"){
-			object.skill = otherSkill
+			difficulty: level,
+			creatorID: userId,
+			creatorName: userDetails.name,
+		};
+		if (skill === "Other") {
+			object.skill = otherSkill;
 		}
 
 		fetch(questionRoute.addQuestion, {
@@ -97,6 +104,8 @@ function Add() {
 		})
 			.then((res) => res.json())
 			.then((res) => {
+				setProgress(100);
+				setIsProgress(false);
 				if (res.isError) {
 					notify(res.message, "warning");
 				} else {
@@ -104,10 +113,12 @@ function Add() {
 				}
 			})
 			.catch((err) => {
+				setProgress(100);
+				setIsProgress(false);
 				console.log(err);
 				notify(err.message, "error");
 			});
-	}
+	};
 
 	const notify = (message: string, type: string) => {
 		if (type === "error") {
@@ -121,8 +132,7 @@ function Add() {
 				progress: undefined,
 				theme: "light",
 			});
-		}else
-		if (type === "success") {
+		} else if (type === "success") {
 			toast.success(message, {
 				position: "top-right",
 				autoClose: 5000,
@@ -133,8 +143,7 @@ function Add() {
 				progress: undefined,
 				theme: "light",
 			});
-		}else
-		if (type === "info") {
+		} else if (type === "info") {
 			toast.info(message, {
 				position: "top-right",
 				autoClose: 5000,
@@ -145,8 +154,7 @@ function Add() {
 				progress: undefined,
 				theme: "light",
 			});
-		}else
-		if (type === "warning") {
+		} else if (type === "warning") {
 			toast.warn(message, {
 				position: "top-right",
 				autoClose: 5000,
@@ -171,7 +179,6 @@ function Add() {
 		}
 	};
 
-	
 	useEffect(() => {
 		const userDetails = localStorage.getItem("userInfo");
 		const token = localStorage.getItem("token");
@@ -190,8 +197,25 @@ function Add() {
 		}
 	}, []);
 
+	const displayProgressBar = () => {
+		setIsProgress(true);
+		let currentProgress = 0;
+		setInterval(() => {
+			currentProgress += 10;
+			setProgress(currentProgress);
+			if (progress === 100) {
+				return;
+			}
+		}, 1000);
+	};
+
 	return (
 		<div>
+			<div id="progress">
+				{isProgress && (
+					<LinearProgress variant="determinate" value={progress} />
+				)}
+			</div>
 			<form id="addQuestionForm">
 				<h2>{`{Code}`}Path </h2>
 				<p>Add Question</p>
@@ -237,21 +261,21 @@ function Add() {
 				{skill === "Other" && (
 					<div>
 						<input
-						type="text"
-						id="emailInput"
-						name="skill"
-						autoComplete="off"
-						placeholder="Enter skill name"
-						value={otherSkill}
-						onChange={handelOtherSkill}
-					/>
-					<label htmlFor="" id="form-label">
-					Enter skill name
-					</label>
+							type="text"
+							id="emailInput"
+							name="skill"
+							autoComplete="off"
+							placeholder="Enter skill name"
+							value={otherSkill}
+							onChange={handelOtherSkill}
+						/>
+						<label htmlFor="" id="form-label">
+							Enter skill name
+						</label>
 					</div>
 				)}
 				<div>
-					<label id="form-label">Level</label>
+					<label id="form-label">Difficulty Level</label>
 					<select name="" id="input" value={level} onChange={handelLevel}>
 						<option value=""></option>
 						<option value="Hard">Hard</option>

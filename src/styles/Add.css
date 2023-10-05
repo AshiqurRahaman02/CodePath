@@ -68,6 +68,10 @@
 	padding: 30px;
 	margin: 30px auto 0px;
 }
+
+#addQuestionForm textarea {
+	height: 80px;
+}
 #addQuestionForm > p {
 	font-size: 20px;
 	color: rgb(115, 116, 117);
@@ -121,4 +125,9 @@
 	border-radius: 5px;
 	transition: 0.5s;
 	cursor: pointer;
+}
+
+#progress{
+	width: 360px;
+	margin: 50px auto -30px;
 }
