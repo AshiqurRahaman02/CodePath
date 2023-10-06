@@ -109,10 +109,36 @@ function Questions() {
 	};
 
 	const handelSearch = (searchInput: any) => {
-		notify(
-			"Great things are on the way! Stay tuned for exciting updates as we work diligently to bring you these amazing features.",
-			"info"
-		);
+		if(searchInput){
+			setIsLoading(true);
+		
+		
+		fetch(`${questionRoute.searchQuestion}/${searchInput}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: token,
+			},
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				setIsLoading(false);
+				if (res.isError) {
+					notify(res.message, "warning");
+					setDisplayQuestions(allQuestions)
+				} else {
+					setDisplayQuestions(res.questions)
+				}
+			})
+			.catch((err) => {
+				setIsLoading(false);
+				console.log(err);
+				notify(err.message, "error");
+			});
+		}else{
+			notify("Please enter valid input", "warning");
+		}
+
 	};
 	const handleQuestionUpdate = (params: any) => {
 		let status = "";

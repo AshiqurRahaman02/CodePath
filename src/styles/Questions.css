@@ -36,10 +36,12 @@
 
 #parent {
 	overflow: auto;
+	
 	max-height: 75vh;
 	overflow-y: scroll;
 
 	display: flex;
+	/* flex-direction: column; */
 	flex-wrap: wrap;
 	justify-content: space-evenly;
 }
