@@ -330,7 +330,7 @@ function QuestionLeftbar({ onChange }: Fun) {
 								checked={isMedium}
 								onChange={() => setMedium(!isMedium)}
 							/>
-							<span>Mediun</span>
+							<span>Medium</span>
 						</h3>
 						<h3>
 							<input
