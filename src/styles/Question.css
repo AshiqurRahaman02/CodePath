@@ -63,15 +63,15 @@
 	background-color: rgb(255, 39, 39);
 	/* border-radius: 5px; */
 }
-#top #like{
-    border: 1px solid rgb(0, 0, 0);
-    background-color: transparent;
-    cursor: pointer;
+#top #like {
+	border: 1px solid rgb(0, 0, 0);
+	background-color: transparent;
+	cursor: pointer;
 }
-#top #bookmark{
-    border: 1px solid rgb(0, 0, 0);
-    background-color: transparent;
-    cursor: pointer;
+#top #bookmark {
+	border: 1px solid rgb(0, 0, 0);
+	background-color: transparent;
+	cursor: pointer;
 }
 
 #answer > h2 {
@@ -96,12 +96,12 @@
 	resize: none;
 	outline: none;
 }
-#textarea>div{
+#textarea > div {
 	display: flex;
 	justify-content: space-between;
 }
 
-#textarea  button,
+#textarea button,
 #add {
 	margin-top: -5px;
 	height: 30px;
@@ -121,13 +121,13 @@
 	touch-action: manipulation;
 }
 
-#textarea  button span:first-child {
+#textarea button span:first-child {
 	position: relative;
 	transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
 	z-index: 10;
 }
 
-#textarea  button span:last-child {
+#textarea button span:last-child {
 	color: rgb(0, 0, 0);
 	display: block;
 	position: absolute;
@@ -142,7 +142,7 @@
 	line-height: 30px;
 }
 
-#textarea  button:after {
+#textarea button:after {
 	content: "";
 	position: absolute;
 	bottom: -50%;
@@ -156,12 +156,12 @@
 	z-index: 50;
 }
 
-#textarea  button:hover:after {
+#textarea button:hover:after {
 	transform-origin: bottom center;
 	transform: skewY(9.3deg) scaleY(2);
 }
 
-#textarea  button:hover span:last-child {
+#textarea button:hover span:last-child {
 	transform: translateX(-50%) translateY(-100%);
 	opacity: 1;
 	transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
@@ -222,21 +222,77 @@
 	height: 30px;
 }
 
-#comments > div:nth-child(3){
+#comments > div:nth-child(3) {
 	margin-left: 20px;
 }
-#comment{
+#comment {
 	display: flex;
 	min-width: 300px;
 	max-width: 60%;
 	margin-top: 10px;
 }
-#comment>div:nth-child(2){
+#comment > div:nth-child(2) {
 	margin-left: 20px;
 }
-#comment>div:nth-child(2)>p{
+#comment > div:nth-child(2) > p {
 	color: #000;
 }
-#comment>div:nth-child(2)>p:nth-child(1){
+#comment > div:nth-child(2) > p:nth-child(1) {
 	margin-top: 0px;
+}
+
+.contactButton {
+	background: #7079f0;
+	color: white;
+	font-family: inherit;
+	padding: 0.45em;
+	/* padding-left: 1em; */
+	font-size: 17px;
+	font-weight: 500;
+	border-radius: 0.9em;
+	border: none;
+	letter-spacing: 0.05em;
+	display: flex;
+	align-items: center;
+	box-shadow: inset 0 0 1.6em -0.6em #714da6;
+	overflow: hidden;
+	position: relative;
+	height: 2.8em;
+	cursor: pointer;
+	/* padding-right: 3em; */
+}
+
+.iconButton {
+	margin-right: 0.5em;
+	/* position: absolute; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 1.5em;
+	width: 1.5em;
+	padding: 0.3em;
+	border-radius: 0.7em;
+	box-shadow: 0.1em 0.1em 0.6em 0.2em #7a8cf3;
+	/* right: 0.3em; */
+	/* transition: all 0.3s; */
+}
+
+#faMicrophone {
+	height: 1.3em;
+	width: 1.3em;
+}
+
+#resetSvg{
+	color: #f5f5f5;
+}
+
+.container{
+	display: flex;
+	justify-content: right;
+}
+.btn-style{
+	margin-top: 20px;
+	display: flex;
+	width: 350px;
+	justify-content: space-between;
 }

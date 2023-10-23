@@ -10,7 +10,7 @@ function QuestionTemplate() {
 			{/* <span className="skeleton-loader"></span>  */}
 			
       {question.map((q:any)=>(
-        <div>
+        <div key={q}>
 				<div>
 					<span className="skeleton-loader" id="tamplate-question"></span>
 				</div>

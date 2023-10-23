@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import SpeechRecognition, {
+	useSpeechRecognition,
+} from "react-speech-recognition";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,7 +12,10 @@ import {
 	faChevronUp,
 	faBookmark,
 	faUser,
-	faArrowRight
+	faArrowRight,
+	faMicrophone,
+	faMicrophoneSlash,
+	faRotateRight
 } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -43,6 +49,12 @@ function Question() {
 	const [userAnswer, setUserAnswer] = useState("");
 
 	const [allAnswers, setAllAnswers] = useState<IAnswer[]>([]);
+
+	const startListening = () =>
+		SpeechRecognition.startListening({ continuous: true, language: "en-IN" });
+	const { transcript, listening, resetTranscript } = useSpeechRecognition();
+
+	const [userSpeeking, setUserSpeeking] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -106,7 +118,6 @@ function Question() {
 	};
 
 	const handelGoogle = () => {
-
 		let url = "https://www.google.com/search?q=";
 		let q: any = question?.question.split(" ");
 		if (q.length) {
@@ -122,7 +133,6 @@ function Question() {
 	};
 
 	const handelYoutube = () => {
-
 		let url = "https://www.youtube.com/results?search_query=";
 		let q: any = question?.question.split(" ");
 		if (q.length) {
@@ -226,38 +236,37 @@ function Question() {
 			});
 	};
 
-	function getTimeAgoString(dateString:string) {
+	function getTimeAgoString(dateString: string) {
 		const currentDate = new Date();
 		const date = new Date(dateString);
 		const timeDifference = currentDate.getTime() - date.getTime();
-		
+
 		const minuteInMs = 60 * 1000;
 		const hourInMs = 60 * minuteInMs;
 		const dayInMs = 24 * hourInMs;
 		const monthInMs = 30 * dayInMs;
 		const yearInMs = 365 * dayInMs;
-	  
+
 		if (timeDifference < minuteInMs) {
-		  const secondsAgo = Math.floor(timeDifference / 1000);
-		  return `${secondsAgo} seconds ago`;
+			const secondsAgo = Math.floor(timeDifference / 1000);
+			return `${secondsAgo} seconds ago`;
 		} else if (timeDifference < hourInMs) {
-		  const minutesAgo = Math.floor(timeDifference / minuteInMs);
-		  return `${minutesAgo} minutes ago`;
+			const minutesAgo = Math.floor(timeDifference / minuteInMs);
+			return `${minutesAgo} minutes ago`;
 		} else if (timeDifference < dayInMs) {
-		  const hoursAgo = Math.floor(timeDifference / hourInMs);
-		  return `${hoursAgo} hours ago`;
+			const hoursAgo = Math.floor(timeDifference / hourInMs);
+			return `${hoursAgo} hours ago`;
 		} else if (timeDifference < monthInMs) {
-		  const daysAgo = Math.floor(timeDifference / dayInMs);
-		  return `${daysAgo} days ago`;
+			const daysAgo = Math.floor(timeDifference / dayInMs);
+			return `${daysAgo} days ago`;
 		} else if (timeDifference < yearInMs) {
-		  const monthsAgo = Math.floor(timeDifference / monthInMs);
-		  return `${monthsAgo} months ago`;
+			const monthsAgo = Math.floor(timeDifference / monthInMs);
+			return `${monthsAgo} months ago`;
 		} else {
-		  const yearsAgo = Math.floor(timeDifference / yearInMs);
-		  return `${yearsAgo} years ago`;
+			const yearsAgo = Math.floor(timeDifference / yearInMs);
+			return `${yearsAgo} years ago`;
 		}
-	  }
-	  
+	}
 
 	useEffect(() => {
 		const userDetails = localStorage.getItem("userInfo");
@@ -281,7 +290,6 @@ function Question() {
 					if (res.isError) {
 						notify(res.message, "warning");
 					} else {
-
 						setLikes(res.question.likes);
 						setIsLiked(
 							res.question.likedBy.includes(parsedUserDetails._id)
@@ -307,6 +315,18 @@ function Question() {
 			}, 3000);
 		}
 	}, []);
+
+	useEffect(() => {
+		if (listening) {
+			setUserSpeeking(true);
+		} else {
+			setUserSpeeking(false);
+		}
+
+		// if(userAnswers !== transcript){
+		// 	setUserAnswers(userAnswers+transcript);
+		// }
+	}, [listening]);
 
 	const answerVisible = () => {
 		setIsAnswerVisible(!isAnswerVisible);
@@ -381,7 +401,8 @@ function Question() {
 	};
 	const handelSubmit = () => {
 		if (token) {
-			if (userAnswers) {
+			if (userAnswers || transcript) {
+				SpeechRecognition.stopListening()
 				fetch(`${questionRoute.attempted}/${id}`, {
 					method: "PUT",
 					headers: {
@@ -409,19 +430,19 @@ function Question() {
 	};
 	const handelNext = () => {
 		const Obj: Record<string, string> = {
-			"JavaScript": "js",
+			JavaScript: "js",
 			"Node Js": "node",
-			"TypeScript": "ts",
-			"React": "react"
-		  };
-		  
-		  let skill = "others";
-		  
-		  if (question?.skill && Obj.hasOwnProperty(question.skill)) {
+			TypeScript: "ts",
+			React: "react",
+		};
+
+		let skill = "others";
+
+		if (question?.skill && Obj.hasOwnProperty(question.skill)) {
 			skill = Obj[question.skill];
-		  }
-		  
-		let query =`s=not&skills=${skill}`
+		}
+
+		let query = `s=not&skills=${skill}`;
 		fetch(`${questionRoute.random}?${query}`, {
 			method: "GET",
 			headers: {
@@ -434,13 +455,13 @@ function Question() {
 				if (res.isError) {
 					notify(res.message, "warning");
 				} else {
-					window.location.href=`/question/${res.question._id}`
+					window.location.href = `/question/${res.question._id}`;
 				}
 			})
 			.catch((err) => {
 				notify(err.message, "error");
 			});
-	}
+	};
 	return (
 		<div id="question">
 			<div id="top">
@@ -536,25 +557,59 @@ function Question() {
 						</div>
 					)}
 				</div>
+				<div className="container">
+					<div className="btn-style">
+						{/* <p>Microphone: {listening ? "on" : "off"}</p> */}
+						{/* <p>User Speeking: {userSpeeking ? "True" : "False"}</p> */}
+						{listening ? (
+							<button
+								onClick={SpeechRecognition.stopListening}
+								className="contactButton"
+							>
+								<FontAwesomeIcon
+									icon={faMicrophoneSlash}
+									className="iconButton"
+								/>
+								Stop Speeking
+							</button>
+						) : (
+							<button onClick={startListening} className="contactButton">
+								<FontAwesomeIcon
+									icon={faMicrophone}
+									id="faMicrophone"
+									className="iconButton"
+								/>
+								Start Speeking
+							</button>
+						)}
+
+						<button onClick={resetTranscript} className="contactButton">
+						<FontAwesomeIcon icon={faRotateRight} className="iconButton"/> Clear
+						</button>
+					</div>
+				</div>
+
 				<div id="textarea">
 					<textarea
 						name=""
 						id=""
-						value={userAnswers}
-						onChange={(e) => setUserAnswers(e.target.value)}
+						value={transcript}
+						// onChange={(e) => setUserAnswers(e.target.value)}
 						rows={10}
-						placeholder="Enter your answer here..."
+						placeholder="Click on Start Answering to start answering the question"
 					></textarea>
 
 					<div>
-					<button onClick={handelSubmit}>
-						<span className="text">Submit</span>
-						<span>Submit </span>
-					</button>
-					<button onClick={handelNext}>
-						<span className="text">Next Question</span>
-						<span><FontAwesomeIcon icon={faArrowRight} /></span>
-					</button>
+						<button onClick={handelSubmit}>
+							<span className="text">Submit</span>
+							<span>Submit </span>
+						</button>
+						<button onClick={handelNext}>
+							<span className="text">Next Question</span>
+							<span>
+								<FontAwesomeIcon icon={faArrowRight} />
+							</span>
+						</button>
 					</div>
 				</div>
 				<div id="comments">
@@ -573,21 +628,37 @@ function Question() {
 						{allAnswers.map((answer) => (
 							<div key={answer._id} id="comment">
 								<div>
-									<FontAwesomeIcon icon={faUser} size="2xl" style={{ color: "#191645" }}/>
+									<FontAwesomeIcon
+										icon={faUser}
+										size="2xl"
+										style={{ color: "#191645" }}
+									/>
 								</div>
 								<div>
 									<p>
-										{answer.userName} <span  style={{ color: "#191645" , fontSize: "13px" }}>{getTimeAgoString(answer.createdAt)}</span>
+										{answer.userName}{" "}
+										<span
+											style={{ color: "#191645", fontSize: "13px" }}
+										>
+											{getTimeAgoString(answer.createdAt)}
+										</span>
 									</p>
 									<p>
-										{answer.answer}{" "} <br />
-										<span style={{ color: "#191645" , fontSize: "15px" , marginTop:"10px" , cursor:"pointer"}}>
+										{answer.answer} <br />
+										<span
+											style={{
+												color: "#191645",
+												fontSize: "15px",
+												marginTop: "10px",
+												cursor: "pointer",
+											}}
+										>
 											<FontAwesomeIcon
 												icon={faThumbsUp}
 												size="sm"
 												style={{ color: "#191645" }}
 											/>{" "}
-											 {answer.likes}
+											{answer.likes}
 										</span>
 									</p>
 								</div>
